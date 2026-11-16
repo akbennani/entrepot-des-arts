@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrepôt des Arts — Toiles & châssis pour artistes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@500&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --charbon:#1D1B18;--lin:#F3EDE1;--papier:#FBF8F2;--kraft:#C9A57A;--ocre:#C4502A;--ocre-fonce:#A43E1E;
+  --beton:#6B675F;--ligne:#DDD4C4;--stock:#2F6B45;--warn:#8A5A12;
+  --display:"Big Shoulders Display","Arial Narrow",sans-serif;--serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);color:var(--charbon);background:var(--lin);font-size:16px;line-height:1.6}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,select,textarea{font:inherit}
+.d{font-family:var(--display);text-transform:uppercase;letter-spacing:.01em;line-height:.95}
+.s{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0}
+.m{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.wrap{max-width:1260px;margin:0 auto;padding:0 24px}
+/* topbar */
+.usp{background:var(--charbon);color:var(--lin)}
+.usp .wrap{display:flex;gap:22px;justify-content:center;padding-top:9px;padding-bottom:9px;flex-wrap:wrap}
+.usp span{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.usp span::before{content:"■ ";color:var(--ocre)}
+header.main{background:var(--lin);border-bottom:2px solid var(--charbon);position:sticky;top:0;z-index:30}
+.hrow{display:flex;align-items:center;gap:26px;height:82px}
+.logo{display:block;width:210px;flex:none}
+.logo svg{width:100%;height:auto;display:block}
+.search{flex:1;position:relative;max-width:520px}
+.search input{width:100%;height:44px;border:2px solid var(--charbon);border-radius:2px;padding:0 16px 0 44px;background:var(--papier);outline:none}
+.search input:focus{border-color:var(--ocre-fonce)}
+.search svg{position:absolute;left:15px;top:13px;width:18px}
+.sresults{position:absolute;top:50px;left:0;right:0;background:var(--papier);border:2px solid var(--charbon);display:none;max-height:420px;overflow:auto;z-index:5}
+.sresults a{display:flex;gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--ligne)}
+.sresults a:hover{background:var(--lin)}
+.sresults .th{width:44px;height:44px;flex:none}
+.hicons{display:flex;gap:4px;margin-left:auto;align-items:center}
+.hbtn{display:flex;align-items:center;gap:8px;padding:10px 12px;font-weight:600;font-size:14px}
+.hbtn:hover{background:var(--papier)}
+.hbtn svg{width:22px}
+.cartbtn{position:relative}
+.badge{position:absolute;top:3px;left:24px;background:var(--ocre-fonce);color:var(--lin);font-size:11px;min-width:18px;height:18px;border-radius:999px;display:grid;place-items:center;padding:0 4px;font-weight:700}
+nav.cats .wrap{display:flex;gap:2px;height:46px;align-items:stretch}
+nav.cats{border-top:1px solid var(--ligne)}
+.navi{position:relative;display:flex;align-items:center}
+.navi>a{padding:0 14px;height:100%;display:flex;align-items:center;font-family:var(--display);font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.03em;border-bottom:3px solid transparent}
+.navi>a:hover,.navi>a.on{border-color:var(--ocre)}
+.navi>a .soon{font-family:var(--mono);font-size:10px;background:var(--kraft);padding:2px 5px;margin-left:6px;font-weight:500}
+.mega{position:absolute;top:46px;left:0;background:var(--papier);border:2px solid var(--charbon);padding:24px;display:none;gap:36px;min-width:600px;z-index:10}
+.navi:hover .mega{display:flex}
+.mega h4{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--beton);margin-bottom:10px;font-weight:500}
+.mega a{display:block;padding:4px 0;font-size:15px}
+.mega a:hover{color:var(--ocre-fonce)}
+.mega .promo{background:var(--charbon);color:var(--lin);padding:18px;width:220px;font-size:14px}
+.mega .promo b{display:block;font-family:var(--display);font-size:26px;text-transform:uppercase;margin-bottom:6px;color:var(--kraft)}
+.burger,.msearch{display:none}
+/* generic */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:2px;font-weight:700;background:var(--ocre-fonce);color:var(--lin);transition:.12s;font-size:15px}
+.btn:hover{background:var(--charbon)}
+.btn.dark{background:var(--charbon)}.btn.dark:hover{background:var(--ocre-fonce)}
+.btn.ghost{background:transparent;border:2px solid var(--charbon);color:var(--charbon)}
+.btn.ghost:hover{background:var(--charbon);color:var(--lin)}
+.btn.wa{background:#1E7A47}.btn.wa:hover{background:#155C35}
+.btn.full{width:100%}
+.crumb{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--beton);padding:20px 0}
+.crumb a:hover{color:var(--charbon)}
+.crumb span{margin:0 8px}
+section{padding:64px 0}
+.sec-h{display:flex;justify-content:space-between;align-items:end;margin-bottom:26px;gap:16px;border-bottom:2px solid var(--charbon);padding-bottom:10px}
+.sec-h h2{font-size:44px}
+.sec-h a{font-weight:700;font-size:14px;color:var(--ocre-fonce);white-space:nowrap}
+/* hero */
+.hero{background:var(--lin);border-bottom:2px solid var(--charbon);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;min-height:520px}
+.hero h1{font-size:104px;margin-bottom:6px}
+.hero h1 .s{display:block;font-size:56px;color:var(--ocre-fonce);margin-top:4px}
+.hero p.lead{font-size:18px;max-width:500px;margin:20px 0 28px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-art{position:relative;height:420px}
+.hero-art .roof{position:absolute;left:4%;right:-10%;top:4%;}
+.stack{position:absolute;left:8%;right:-6%;top:150px;display:flex;flex-direction:column;gap:12px}
+.stack div{height:64px;display:flex;align-items:center;padding:0 22px;justify-content:space-between}
+.stack div:nth-child(1){background:var(--charbon);color:var(--lin);margin-right:12%}
+.stack div:nth-child(2){background:var(--kraft);margin-left:10%}
+.stack div:nth-child(3){background:var(--charbon);color:var(--lin);margin-left:-4%}
+.stack b{font-family:var(--display);font-size:34px;font-weight:900}
+.stack span{font-family:var(--mono);font-size:12px;letter-spacing:.06em}
+.proof{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+.proof div{border-left:2px solid var(--charbon);padding-left:12px}
+.proof b{display:block;font-family:var(--display);font-size:34px;line-height:1}
+.proof span{font-size:13px;color:var(--beton)}
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--charbon);border-left:2px solid var(--charbon)}
+.tile{background:var(--papier);border-right:2px solid var(--charbon);border-bottom:2px solid var(--charbon);padding:24px;display:flex;gap:20px;align-items:center;transition:.12s;min-height:150px}
+.tile:hover{background:var(--kraft)}
+.tile .ic{width:96px;height:96px;flex:none;display:grid;place-items:center}
+.tile h3{font-size:30px;margin-bottom:6px}
+.tile p{font-size:14px;color:var(--beton)}
+.tile:hover p{color:var(--charbon)}
+.tile .n{font-family:var(--mono);font-size:11.5px;margin-top:8px;letter-spacing:.05em;text-transform:uppercase}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.grid.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--papier);border:2px solid var(--charbon);display:flex;flex-direction:column;position:relative;transition:.12s}
+.card:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--charbon)}
+.card .img{aspect-ratio:1/1;background:var(--lin);display:grid;place-items:center;padding:24px;border-bottom:2px solid var(--charbon)}
+.card .img svg{width:100%;height:100%}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+.card h3{font-family:var(--display);font-size:24px;font-weight:800;text-transform:uppercase;line-height:1;margin:4px 0 8px}
+.card .meta{font-size:13px;color:var(--beton);margin-bottom:12px}
+.card .foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:8px;border-top:1px dashed var(--ligne);padding-top:10px}
+.pr small{display:block;font-size:11px;color:var(--beton);font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em}
+.pr b{font-family:var(--display);font-size:30px;line-height:1}
+.pr .ct{font-size:12.5px;color:var(--stock);font-weight:600}
+.qadd{width:42px;height:42px;background:var(--charbon);color:var(--lin);display:grid;place-items:center;flex:none}
+.qadd:hover{background:var(--ocre-fonce)}
+.tag{position:absolute;top:12px;left:12px;background:var(--ocre-fonce);color:var(--lin);font-family:var(--mono);font-size:11px;padding:4px 8px;letter-spacing:.05em;z-index:2}
+.tag.k{background:var(--kraft);color:var(--charbon)}
+.stockl{font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px}
+.stockl::before{content:"";width:9px;height:9px;border-radius:999px;background:var(--stock)}
+.stockl.ok{color:var(--stock)}
+.stockl.low{color:var(--warn)}.stockl.low::before{background:var(--warn)}
+/* listing */
+.lhead{border-bottom:2px solid var(--charbon);padding-bottom:30px}
+.lhead h1{font-size:72px;margin-bottom:10px}
+.lhead p{max-width:760px;color:#3b3833}
+.subchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.chip{padding:8px 14px;border:2px solid var(--charbon);border-radius:2px;font-size:14px;font-weight:600;background:var(--papier)}
+.chip:hover{background:var(--kraft)}
+.chip.on{background:var(--charbon);color:var(--lin)}
+.listing{display:grid;grid-template-columns:250px 1fr;gap:32px;padding-bottom:70px}
+aside.filters{padding-top:24px}
+.fgroup{border-bottom:1px solid var(--ligne);padding:14px 0}
+.fgroup h4{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-weight:500}
+.fgroup label{display:flex;align-items:center;gap:10px;padding:3px 0;font-size:14.5px;cursor:pointer}
+.fgroup label input{accent-color:var(--charbon);width:16px;height:16px}
+.fgroup label .c{margin-left:auto;color:var(--beton);font-size:12px;font-family:var(--mono)}
+.fgroup .more{color:var(--ocre-fonce);font-size:13px;font-weight:700;margin-top:4px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;padding:24px 0 16px;gap:12px;flex-wrap:wrap}
+.toolbar select{height:42px;border:2px solid var(--charbon);border-radius:2px;padding:0 12px;background:var(--papier)}
+.active-f{display:flex;gap:6px;flex-wrap:wrap}
+.active-f button{background:var(--kraft);font-size:12.5px;font-weight:700;padding:5px 10px}
+.mfilter{display:none}
+.empty{padding:60px;text-align:center;color:var(--beton);background:var(--papier);border:2px dashed var(--charbon)}
+/* pdp */
+.pdp{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;padding-bottom:40px}
+.gallery{background:var(--papier);border:2px solid var(--charbon);aspect-ratio:1/1;display:grid;place-items:center;padding:60px;position:relative}
+.gallery svg{width:78%;height:auto}
+.gallery .dim{position:absolute;bottom:0;right:0;background:var(--charbon);color:var(--lin);font-family:var(--display);font-size:26px;font-weight:800;padding:6px 14px}
+.pinfo .ref{font-family:var(--mono);font-size:12px;color:var(--beton);letter-spacing:.05em}
+.pinfo h1{font-size:58px;margin:8px 0 6px}
+.pinfo .lead{margin:14px 0;color:#3b3833}
+.opt{margin:22px 0}
+.opt h4{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-weight:500}
+.opt h4 span{color:var(--beton)}
+.sizes{display:flex;flex-wrap:wrap;gap:6px}
+.sizes button{min-width:82px;padding:9px 10px;border:2px solid var(--charbon);border-radius:2px;background:var(--papier);font-weight:600;font-size:14px}
+.sizes button:hover{background:var(--kraft)}
+.sizes button.on{background:var(--charbon);color:var(--lin)}
+.sizes button.big{border-style:double;border-width:4px;padding:7px 8px}
+.sizes button.oos{color:#9b968c}
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pack{border:2px solid var(--charbon);background:var(--papier);padding:12px;text-align:left;border-radius:2px;position:relative}
+.pack:hover{background:var(--lin)}
+.pack.on{background:var(--charbon);color:var(--lin)}
+.pack .t{font-family:var(--display);font-size:22px;font-weight:800;text-transform:uppercase;line-height:1}
+.pack .u{font-size:13px;margin-top:6px}
+.pack .sv{position:absolute;top:-10px;right:8px;background:var(--ocre-fonce);color:var(--lin);font-family:var(--mono);font-size:10.5px;padding:2px 6px}
+.buybox{background:var(--papier);border:2px solid var(--charbon);padding:20px;margin-top:18px}
+.buybox .bp{font-family:var(--display);font-size:52px;font-weight:900;line-height:1}
+.buybox .bp small{font-family:var(--sans);font-size:14px;color:var(--beton);font-weight:500;text-transform:none}
+.buybox .per{font-size:14px;margin-top:6px}
+.qtyrow{display:flex;gap:10px;margin:16px 0}
+.qty{display:flex;border:2px solid var(--charbon);border-radius:2px;height:48px;background:var(--papier)}
+.qty button{width:42px;font-size:18px;font-weight:700}
+.qty button:hover{background:var(--kraft)}
+.qty input{width:52px;text-align:center;border:0;outline:none;font-weight:700;background:transparent}
+.delivery{font-size:14px;margin-top:14px;display:grid;gap:6px;border-top:1px dashed var(--ligne);padding-top:12px}
+.devis{margin-top:16px;background:var(--charbon);color:var(--lin);padding:18px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.devis b{font-family:var(--display);font-size:24px;text-transform:uppercase;font-weight:800;display:block;color:var(--kraft)}
+.devis span{font-size:14px}
+.tabs{margin-top:40px}
+.tabbar{display:flex;gap:0;border-bottom:2px solid var(--charbon)}
+.tabbar button{padding:12px 20px;font-family:var(--display);font-weight:800;font-size:19px;text-transform:uppercase;color:var(--beton)}
+.tabbar button.on{background:var(--charbon);color:var(--lin)}
+.tabc{padding:24px 0;max-width:780px}
+.tabc p{margin-bottom:12px}
+.tabc ul{padding-left:18px;margin-bottom:12px}
+.specs{width:100%;border-collapse:collapse;font-size:15px}
+.specs td{padding:10px 0;border-bottom:1px solid var(--ligne)}
+.specs td:first-child{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--beton);width:42%}
+.ptable td,.ptable th{padding:10px 12px;border-bottom:1px solid var(--ligne);text-align:left;font-size:14.5px}
+.ptable th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;color:var(--beton);border-bottom:2px solid var(--charbon)}
+.ptable td.num{font-family:var(--display);font-size:22px;font-weight:800}
+/* drawer & cart */
+.overlay{position:fixed;inset:0;background:rgba(29,27,24,.5);z-index:60;display:none}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--lin);border-left:2px solid var(--charbon);z-index:61;transform:translateX(100%);transition:.22s;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.drawer header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:2px solid var(--charbon)}
+.drawer header h3{font-size:34px}
+.dlist{flex:1;overflow:auto;padding:6px 20px}
+.dfoot{padding:20px;border-top:2px solid var(--charbon);background:var(--papier)}
+.line{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--ligne)}
+.line .th{width:64px;height:64px;flex:none;background:var(--papier);border:1px solid var(--ligne);display:grid;place-items:center;padding:6px}
+.line .info{flex:1;font-size:13.5px}
+.line .info b{display:block;font-size:15px}
+.line .rm{color:var(--beton);font-size:12px;text-decoration:underline}
+.line .qty{height:34px}.line .qty button{width:30px}.line .qty input{width:38px}
+.shipbar{font-size:13.5px;margin-bottom:12px}
+.shipbar .bar{height:8px;background:var(--ligne);margin-top:8px}
+.shipbar .bar i{display:block;height:100%;background:var(--stock)}
+.tot{display:flex;justify-content:space-between;padding:4px 0;font-size:14.5px}
+.tot.big{font-size:18px;font-weight:800;padding-top:10px;border-top:2px solid var(--charbon);margin-top:6px}
+.cartpage{display:grid;grid-template-columns:1fr 390px;gap:32px;padding-bottom:70px}
+.panel{background:var(--papier);border:2px solid var(--charbon);padding:22px}
+/* checkout */
+.steps{display:flex;gap:0;margin:10px 0 24px;border:2px solid var(--charbon)}
+.steps div{flex:1;padding:11px;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:17px;color:var(--beton);background:var(--papier);border-right:2px solid var(--charbon)}
+.steps div:last-child{border-right:0}
+.steps div.on{background:var(--charbon);color:var(--lin)}
+.steps div.done{color:var(--stock)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form .full{grid-column:1/-1}
+.form label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px}
+.form input,.form select,.form textarea{width:100%;height:46px;border:2px solid var(--charbon);border-radius:2px;padding:0 12px;background:var(--papier);outline:none}
+.form textarea{height:100px;padding:10px 12px}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--ocre-fonce)}
+.radio{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--charbon);padding:14px;cursor:pointer;margin-bottom:10px;background:var(--papier)}
+.radio.on{background:var(--kraft)}
+.radio input{accent-color:var(--charbon);margin-top:4px}
+.radio .t{flex:1;font-size:15px;font-weight:600}.radio .t span{display:block;font-size:13px;font-weight:400;color:#3b3833}
+.radio .p{font-weight:800}
+.note{font-size:12.5px;color:var(--beton);margin-top:10px}
+.success{text-align:center;padding:70px 20px}
+.success .ok{width:80px;margin:0 auto 18px}
+/* sections */
+.bands{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--charbon)}
+.bands div{padding:22px;border-right:2px solid var(--charbon);background:var(--papier)}
+.bands div:last-child{border-right:0}
+.bands b{display:block;font-family:var(--display);font-size:26px;text-transform:uppercase;line-height:1;margin-bottom:6px}
+.bands span{font-size:14px;color:#3b3833}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:0;border:2px solid var(--charbon)}
+.calc .l{background:var(--charbon);color:var(--lin);padding:40px}
+.calc .l h2{font-size:56px;margin-bottom:14px}
+.calc .l h2 .s{color:var(--kraft);font-size:40px;display:block}
+.calc .l p{color:#d9d2c4;margin-bottom:20px;max-width:440px}
+.calc .r{background:var(--papier);padding:30px;overflow:auto}
+.pro{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:start}
+.pro h2{font-size:56px;margin-bottom:12px}
+.pro ul{list-style:none;margin:18px 0 24px;display:grid;gap:8px}
+.pro li::before{content:"■";color:var(--ocre);margin-right:10px;font-size:12px}
+footer{background:var(--charbon);color:#d9d2c4;padding:56px 0 24px;font-size:14px}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:32px}
+footer h4{color:var(--kraft);font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;font-weight:500}
+footer a{display:block;padding:3px 0}
+footer a:hover{color:var(--lin)}
+footer .nl{display:flex;margin-top:12px}
+footer .nl input{flex:1;height:44px;border:0;padding:0 12px;background:var(--lin)}
+footer .nl button{background:var(--ocre-fonce);color:var(--lin);padding:0 16px;font-weight:700}
+footer .bottom{border-top:1px solid #3a3731;margin-top:36px;padding-top:18px;display:flex;justify-content:space-between;font-size:12px;flex-wrap:wrap;gap:10px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(130px);background:var(--charbon);color:var(--lin);padding:12px 18px;z-index:80;transition:.22s;font-size:14px;font-weight:600;border-left:6px solid var(--ocre)}
+.toast.show{transform:translateX(-50%)}
+.wafab{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:999px;background:#1E7A47;color:#fff;display:grid;place-items:center;box-shadow:0 6px 0 var(--charbon);z-index:40}
+.mnav{display:none}
+@media (max-width:1050px){
+  .grid.g3{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .hero .wrap{grid-template-columns:1fr}.hero-art{height:340px}
+  .hero h1{font-size:76px}.hero h1 .s{font-size:42px}
+  .tiles{grid-template-columns:1fr 1fr}
+  .bands{grid-template-columns:1fr 1fr}.bands div:nth-child(2){border-right:0}.bands div:nth-child(-n+2){border-bottom:2px solid var(--charbon)}
+  .pdp{grid-template-columns:1fr}.gallery{position:relative;top:0}
+  .cartpage,.calc,.pro{grid-template-columns:1fr}
+  footer .cols{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .usp span:nth-child(n+2){display:none}
+  .toolbar select{width:100%}
+  .subchips{flex-wrap:nowrap;overflow-x:auto;margin-right:-16px;padding-right:16px;padding-bottom:4px}
+  .chip{white-space:nowrap}
+  .drawer header h3{font-size:26px}
+  .grid.g3{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:64px}.hero h1 .s{font-size:38px}
+  .hero-art{height:300px}.stack{top:110px;left:0;right:0}.stack div{height:52px;padding:0 14px}.stack b{font-size:24px}.stack span{font-size:10px}
+  .proof{gap:18px}.proof b{font-size:28px}
+  .wafab{width:50px;height:50px;right:14px;bottom:14px}
+  .hrow{height:66px;gap:8px}
+  .logo{width:150px}
+  .search{position:absolute;left:16px;right:16px;top:66px;max-width:none;display:none}
+  .search.open{display:block;background:var(--lin);padding:10px 0}
+  .hbtn .lbl{display:none}
+  nav.cats{display:none}
+  .burger,.msearch{display:flex}
+  .wrap{padding:0 16px}
+  .listing{grid-template-columns:1fr}
+  aside.filters{display:none;position:fixed;inset:0;background:var(--lin);z-index:70;overflow:auto;padding:20px}
+  aside.filters.open{display:block}
+  .mfilter{display:inline-flex}
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .card .img{padding:14px}.card .body{padding:10px 12px 12px}.card h3{font-size:19px}.pr b{font-size:24px}
+  .tiles,.bands{grid-template-columns:1fr}.bands div{border-right:0;border-bottom:2px solid var(--charbon)}.bands div:last-child{border-bottom:0}
+  .form{grid-template-columns:1fr}
+  .lhead h1,.pinfo h1{font-size:44px}
+  .gallery{padding:30px}
+  .packs{grid-template-columns:1fr}
+  section{padding:44px 0}
+  .sec-h h2{font-size:32px}
+  .calc .l{padding:26px}.calc .l h2,.pro h2{font-size:40px}
+  .mnav{display:block;position:fixed;inset:0;background:var(--lin);z-index:70;padding:20px;overflow:auto;transform:translateX(-100%);transition:.22s}
+  .mnav.open{transform:none}
+  .mnav h4{margin:22px 0 6px;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--beton);letter-spacing:.08em;font-weight:500}
+  .mnav a{display:block;padding:10px 0;border-bottom:1px solid var(--ligne);font-weight:600}
+}
+</style>
+</head>
+<body>
+
+<div class="usp"><div class="wrap">
+  <span>Prix carton dès 5 toiles</span>
+  <span>Jusqu'à 150 × 200 cm en stock</span>
+  <span>Livraison offerte dès 1 000 DH</span>
+  <span>Paiement à la livraison</span>
+</div></div>
+
+<header class="main">
+  <div class="wrap hrow">
+    <button class="hbtn burger" onclick="toggleMnav(true)" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    <a href="#accueil" class="logo" aria-label="Entrepôt des Arts — accueil"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 573 172"><g transform="translate(6,6)"><g transform="translate(0,8) scale(1.24)">
+<path d="M6 42 L50 11 L94 42" fill="none" stroke="#C4502A" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+<rect x="15" y="51" width="68" height="13" fill="#1D1B18"/>
+<rect x="21" y="67" width="64" height="13" fill="#C9A57A"/>
+<rect x="13" y="83" width="74" height="13" fill="#1D1B18"/></g><path d="M154.16 104.0V20.799999999999997H190.144V34.528000000000006H169.76V54.808H189.10399999999998V68.536H169.76V90.272H190.144V104.0Z M200.75199999999998 104.0V20.799999999999997H223.32L229.55999999999997 47.32L235.27999999999997 90.272H237.98399999999998L235.07199999999997 56.472L233.82399999999998 20.799999999999997H248.904V104.0H225.19199999999998L218.952 76.75200000000001L214.688 34.42400000000001H211.77599999999998L214.48 72.072L215.832 104.0Z M271.212 104.0V34.528000000000006H257.848V20.799999999999997H300.176V34.528000000000006H286.812V104.0Z M309.12 104.0V20.799999999999997H329.192Q340.84 20.799999999999997 346.014 25.506Q351.188 30.212000000000003 351.55199999999996 41.080000000000005Q351.65599999999995 43.992000000000004 351.68199999999996 46.176Q351.70799999999997 48.36 351.68199999999996 50.544Q351.65599999999995 52.728 351.55199999999996 55.64Q351.344 62.4 349.28999999999996 66.71600000000001Q347.236 71.03200000000001 342.91999999999996 73.32L352.69599999999997 104.0H336.15999999999997L328.256 75.92H324.71999999999997V104.0ZM324.71999999999997 62.192H329.192Q332.46799999999996 62.192 334.13199999999995 60.684Q335.796 59.176 335.952 56.472Q336.108 53.924 336.15999999999997 51.141999999999996Q336.212 48.36 336.15999999999997 45.578Q336.108 42.796 335.952 40.248000000000005Q335.796 37.492000000000004 334.13199999999995 36.010000000000005Q332.46799999999996 34.528000000000006 329.192 34.528000000000006H324.71999999999997Z M362.888 104.0V20.799999999999997H398.87199999999996V34.528000000000006H378.48799999999994V54.808H397.83199999999994V68.536H378.48799999999994V90.272H398.87199999999996V104.0Z M409.47999999999996 104.0V20.799999999999997H429.5519999999999Q441.19999999999993 20.799999999999997 446.3739999999999 25.506Q451.54799999999994 30.212000000000003 451.9119999999999 41.080000000000005Q452.0679999999999 45.448 452.0679999999999 49.192Q452.0679999999999 52.936 451.9119999999999 57.304Q451.54799999999994 68.12 446.3739999999999 72.852Q441.19999999999993 77.584 429.5519999999999 77.584H425.0799999999999V104.0ZM425.0799999999999 63.856H429.5519999999999Q432.8279999999999 63.856 434.49199999999996 62.348Q436.15599999999995 60.84 436.31199999999995 58.136Q436.46799999999996 55.588 436.52 52.39Q436.57199999999995 49.192 436.52 45.994Q436.46799999999996 42.796 436.31199999999995 40.248000000000005Q436.15599999999995 37.492000000000004 434.49199999999996 36.010000000000005Q432.8279999999999 34.528000000000006 429.5519999999999 34.528000000000006H425.0799999999999Z M484.2039999999999 105.04Q472.7639999999999 105.04 467.64199999999994 100.20400000000001Q462.5199999999999 95.368 462.25999999999993 84.136Q462.15599999999995 79.04 462.1039999999999 73.52799999999999Q462.0519999999999 68.01599999999999 462.0519999999999 62.348Q462.0519999999999 56.68 462.1039999999999 51.168000000000006Q462.15599999999995 45.656000000000006 462.25999999999993 40.56Q462.5199999999999 29.38000000000001 467.64199999999994 24.570000000000007Q472.7639999999999 19.760000000000005 484.2039999999999 19.760000000000005Q495.6959999999999 19.760000000000005 500.68799999999993 24.570000000000007Q505.67999999999995 29.38000000000001 506.0439999999999 40.56Q506.2519999999999 45.760000000000005 506.3559999999999 51.272000000000006Q506.4599999999999 56.784 506.4599999999999 62.426Q506.4599999999999 68.06800000000001 506.3559999999999 73.554Q506.2519999999999 79.04 506.0439999999999 84.136Q505.67999999999995 95.368 500.68799999999993 100.20400000000001Q495.6959999999999 105.04 484.2039999999999 105.04ZM484.2039999999999 92.352Q487.27199999999993 92.352 488.83199999999994 90.974Q490.39199999999994 89.596 490.4439999999999 87.048Q490.70399999999995 81.744 490.80799999999994 75.4Q490.9119999999999 69.05600000000001 490.9119999999999 62.348000000000006Q490.9119999999999 55.64 490.80799999999994 49.29600000000001Q490.70399999999995 42.952000000000005 490.4439999999999 37.647999999999996Q490.39199999999994 35.152 488.7799999999999 33.800000000000004Q487.1679999999999 32.44800000000001 484.2039999999999 32.44800000000001Q481.2399999999999 32.44800000000001 479.6019999999999 33.800000000000004Q477.96399999999994 35.152 477.8599999999999 37.647999999999996Q477.65199999999993 42.952000000000005 477.52199999999993 49.29600000000001Q477.39199999999994 55.64 477.39199999999994 62.348000000000006Q477.39199999999994 69.05600000000001 477.52199999999993 75.4Q477.65199999999993 81.744 477.8599999999999 87.048Q477.96399999999994 89.596 479.6019999999999 90.974Q481.2399999999999 92.352 484.2039999999999 92.352Z M528.1959999999999 104.0V34.528000000000006H514.8319999999999V20.799999999999997H557.1599999999999V34.528000000000006H543.7959999999998V104.0Z" fill="#1D1B18"/><path d="M460.5 18.7 L484.2 1.0 L508.0 18.7" fill="none" stroke="#C4502A" stroke-width="8.8" stroke-linejoin="miter" stroke-linecap="square"/><rect x="150" y="133" width="269.9" height="3" fill="#1D1B18"/><path d="M438.0459999999999 148.414Q436.3439999999999 148.414 435.42399999999986 146.988Q434.5039999999999 145.562 434.5039999999999 142.802Q434.5039999999999 140.18 435.2399999999999 137.535Q435.9759999999999 134.89 437.2639999999999 132.498Q438.5519999999999 130.106 440.1849999999999 128.266Q441.81799999999987 126.426 443.6349999999999 125.345Q445.4519999999999 124.264 447.24599999999987 124.264Q448.4879999999999 124.264 449.4079999999999 124.908Q450.0519999999999 125.322 450.1899999999999 124.632L451.6619999999999 118.56Q451.8919999999999 117.732 451.6849999999999 117.41Q451.4779999999999 117.088 450.8339999999999 117.042L449.4539999999999 116.904Q448.7639999999999 116.858 448.8559999999999 116.306Q448.94799999999987 115.892 449.4999999999999 115.8Q451.1559999999999 115.524 452.4439999999999 115.133Q453.7319999999999 114.74199999999999 454.5139999999999 114.098Q454.8819999999999 113.822 455.2039999999999 113.822Q455.7559999999999 113.822 455.6179999999999 114.512L449.0859999999999 142.802Q448.3959999999999 145.792 450.0059999999999 145.792Q451.0639999999999 145.792 451.9149999999999 144.36599999999999Q452.7659999999999 142.94 453.6399999999999 139.95Q453.7779999999999 139.444 454.2379999999999 139.444Q454.5599999999999 139.444 454.65199999999993 139.72Q454.7439999999999 139.996 454.6519999999999 140.364Q453.7779999999999 144.688 452.2369999999999 146.551Q450.6959999999999 148.414 448.62599999999986 148.414Q446.8319999999999 148.414 446.07299999999987 146.896Q445.3139999999999 145.378 445.9119999999999 142.756L446.4179999999999 140.64Q446.5099999999999 140.318 446.3029999999999 140.272Q446.0959999999999 140.226 445.9579999999999 140.502Q443.7499999999999 144.826 441.7719999999999 146.62Q439.79399999999987 148.414 438.0459999999999 148.414ZM439.14999999999986 146.068Q440.2539999999999 146.068 441.5879999999999 144.734Q442.9219999999999 143.4 444.2329999999999 141.284Q445.54399999999987 139.168 446.6479999999999 136.73000000000002Q447.7519999999999 134.292 448.41899999999987 132.038Q449.0859999999999 129.784 449.0859999999999 128.22Q449.0859999999999 125.414 447.1079999999999 125.414Q445.9119999999999 125.414 444.5779999999999 126.495Q443.2439999999999 127.576 442.02499999999986 129.416Q440.80599999999987 131.256 439.8169999999999 133.579Q438.8279999999999 135.902 438.2299999999999 138.409Q437.6319999999999 140.916 437.6319999999999 143.308Q437.6319999999999 144.918 438.0689999999999 145.493Q438.5059999999999 146.068 439.14999999999986 146.068Z M461.6439999999999 148.414Q459.20599999999985 148.414 457.73399999999987 146.505Q456.2619999999999 144.596 456.2619999999999 141.1Q456.2619999999999 138.064 457.34299999999985 135.074Q458.42399999999986 132.084 460.17199999999985 129.64600000000002Q461.91999999999985 127.208 464.01299999999986 125.73599999999999Q466.1059999999999 124.264 468.0839999999999 124.264Q470.24599999999987 124.264 471.18899999999985 125.299Q472.1319999999999 126.334 472.1319999999999 128.082Q472.1319999999999 130.152 470.6829999999999 132.199Q469.23399999999987 134.246 466.6349999999999 135.856Q464.0359999999999 137.466 460.53999999999985 138.248Q459.52799999999985 138.478 459.48199999999986 139.398Q459.43599999999986 139.72 459.43599999999986 140.065Q459.43599999999986 140.41 459.43599999999986 140.732Q459.43599999999986 143.354 460.33299999999986 144.688Q461.22999999999985 146.022 462.79399999999987 146.022Q464.54199999999986 146.022 466.17499999999984 144.41199999999998Q467.8079999999999 142.802 468.91199999999986 139.858Q469.04999999999984 139.444 469.4639999999999 139.444Q469.73999999999984 139.444 469.80899999999986 139.67399999999998Q469.8779999999999 139.904 469.7859999999999 140.226Q468.31399999999985 144.274 466.2209999999999 146.344Q464.1279999999999 148.414 461.6439999999999 148.414ZM459.9419999999999 136.5Q459.84999999999985 136.822 460.05699999999985 137.029Q460.26399999999984 137.236 460.58599999999984 137.144Q463.4379999999999 136.362 465.3699999999999 134.77499999999998Q467.30199999999985 133.188 468.2909999999998 131.20999999999998Q469.27999999999986 129.232 469.27999999999986 127.346Q469.27999999999986 125.414 467.7619999999999 125.414Q466.4279999999999 125.414 464.86399999999986 126.97800000000001Q463.29999999999984 128.542 461.9659999999999 131.072Q460.6319999999999 133.602 459.9419999999999 136.5Z M477.05399999999986 148.414Q475.53599999999983 148.414 473.85699999999986 147.954Q472.1779999999998 147.494 471.30399999999986 146.804Q470.98199999999986 146.528 471.02799999999985 145.976L472.03999999999985 139.95Q472.13199999999983 139.352 472.59199999999987 139.352Q473.09799999999984 139.352 473.09799999999984 139.996L473.1899999999998 142.204Q473.28199999999987 144.826 474.45499999999987 146.04500000000002Q475.6279999999999 147.264 477.32999999999987 147.264Q478.80199999999985 147.264 479.85999999999984 146.321Q480.91799999999984 145.378 480.91799999999984 143.538Q480.91799999999984 142.48 480.59599999999983 141.583Q480.27399999999983 140.686 479.58399999999983 139.651Q478.89399999999983 138.61599999999999 477.69799999999987 137.144Q476.13399999999984 135.12 475.3749999999999 133.671Q474.6159999999999 132.222 474.6159999999999 130.65800000000002Q474.6159999999999 127.76 476.4329999999999 126.012Q478.24999999999983 124.264 481.05599999999987 124.264Q482.29799999999983 124.264 483.47099999999983 124.632Q484.64399999999983 125.0 485.4259999999999 125.736Q485.83999999999986 126.05799999999999 485.7019999999998 126.564L484.4139999999999 132.728Q484.27599999999984 133.326 483.86199999999985 133.326Q483.44799999999987 133.326 483.3559999999998 132.682L483.21799999999985 130.474Q483.0339999999998 127.714 482.5049999999998 126.518Q481.97599999999983 125.322 480.3199999999998 125.322Q478.84799999999984 125.322 477.9279999999999 126.334Q477.00799999999987 127.346 477.00799999999987 128.772Q477.00799999999987 130.29 477.8359999999999 131.555Q478.6639999999999 132.82 480.08999999999986 134.752Q481.97599999999983 137.236 482.6429999999998 138.708Q483.30999999999983 140.18 483.30999999999983 141.698Q483.30999999999983 143.63 482.45899999999983 145.148Q481.60799999999983 146.666 480.18199999999985 147.54Q478.75599999999986 148.414 477.05399999999986 148.414Z  M490.57799999999986 148.0Q490.02599999999984 148.0 490.02599999999984 147.54Q490.02599999999984 147.126 490.76199999999983 146.942L491.4979999999998 146.804Q492.41799999999984 146.62 493.0849999999998 145.90699999999998Q493.75199999999984 145.194 494.34999999999985 143.906L508.1039999999998 115.156Q508.33399999999983 114.696 508.56399999999985 114.55799999999999Q508.7939999999998 114.42 508.97799999999984 114.42Q509.20799999999986 114.42 509.36899999999986 114.55799999999999Q509.52999999999986 114.696 509.52999999999986 115.156L510.03599999999983 144.32Q510.0819999999998 145.608 510.35799999999983 146.091Q510.63399999999984 146.574 511.5079999999998 146.804L512.1059999999999 146.942Q512.6579999999998 147.08 512.6579999999998 147.494Q512.6579999999998 148.0 511.87599999999986 148.0H504.28599999999983Q503.6879999999998 148.0 503.6879999999998 147.54Q503.6879999999998 147.034 504.60799999999983 146.942L505.52799999999985 146.85Q506.30999999999983 146.758 506.6089999999998 146.344Q506.90799999999984 145.93 506.90799999999984 144.918L506.81599999999986 137.788Q506.81599999999986 136.592 505.57399999999984 136.592H500.6519999999998Q499.45599999999985 136.592 498.85799999999983 137.788L495.8679999999998 143.952Q494.62599999999986 146.574 496.69599999999986 146.85L497.33999999999986 146.942Q498.02999999999986 147.034 498.02999999999986 147.494Q498.02999999999986 148.0 497.2479999999998 148.0ZM500.83599999999984 135.212H505.98799999999983Q506.7699999999998 135.212 506.7699999999998 134.43L506.6779999999998 121.872H506.4479999999998L500.42199999999985 134.43Q500.23799999999983 134.752 500.37599999999986 134.982Q500.51399999999984 135.212 500.83599999999984 135.212Z M517.3959999999998 148.0Q516.7519999999998 148.0 516.8899999999999 147.402L521.2599999999999 129.048Q521.4899999999999 128.036 521.329 127.461Q521.1679999999999 126.886 520.4779999999998 126.886Q519.6499999999999 126.886 518.6609999999998 128.10500000000002Q517.6719999999999 129.324 516.4299999999998 132.728Q516.2459999999999 133.326 515.7859999999998 133.326Q515.0959999999999 133.326 515.4179999999999 132.498Q516.4299999999998 129.324 517.5569999999998 127.53Q518.6839999999999 125.736 519.8339999999998 125.0Q520.9839999999999 124.264 521.9499999999999 124.264Q523.4679999999998 124.264 524.1119999999999 125.39099999999999Q524.7559999999999 126.518 524.1579999999999 129.094L523.6519999999999 131.256Q523.6059999999999 131.578 523.79 131.62400000000002Q523.9739999999999 131.67000000000002 524.1119999999999 131.394Q525.8599999999999 127.392 527.2859999999998 125.828Q528.7119999999999 124.264 530.5519999999999 124.264Q531.7939999999999 124.264 532.4149999999998 124.931Q533.0359999999998 125.598 533.0359999999998 126.748Q533.0359999999998 127.898 532.4839999999999 128.588Q531.9319999999999 129.278 531.0579999999999 129.278Q530.3219999999999 129.278 529.9999999999999 128.91Q529.6779999999999 128.542 529.5169999999998 128.059Q529.3559999999999 127.576 529.1719999999998 127.208Q528.9879999999998 126.84 528.5739999999998 126.84Q527.8839999999999 126.84 526.78 128.58800000000002Q525.6759999999999 130.336 524.4109999999998 133.303Q523.1459999999998 136.27 521.9729999999998 139.95Q520.7999999999998 143.63 519.9259999999999 147.494Q519.7879999999999 148.0 519.2819999999999 148.0Z M536.0719999999999 148.414Q534.5079999999999 148.414 533.6339999999999 147.172Q532.7599999999999 145.93 533.3579999999998 143.17L537.1759999999999 126.518Q537.3139999999999 125.828 536.6239999999999 125.828H534.8759999999999Q534.2319999999999 125.828 534.2319999999999 125.23Q534.2319999999999 124.908 534.4619999999999 124.72399999999999Q534.6919999999999 124.53999999999999 535.0139999999999 124.53999999999999H536.6699999999998Q537.7279999999998 124.53999999999999 537.9119999999999 123.574L539.0159999999998 118.652Q539.1539999999999 118.146 539.6599999999999 118.146H541.5459999999999Q542.1899999999998 118.146 542.0519999999999 118.744L540.9019999999999 123.85Q540.7639999999999 124.53999999999999 541.4539999999998 124.53999999999999H544.0759999999999Q544.8579999999998 124.53999999999999 544.8579999999998 125.138Q544.8579999999998 125.828 543.8919999999998 125.828H541.4079999999999Q540.3959999999998 125.828 540.1659999999998 126.794L536.3019999999999 143.63Q536.0719999999999 144.642 536.3709999999999 145.21699999999998Q536.6699999999998 145.792 537.4059999999998 145.792Q538.4639999999998 145.792 539.3609999999999 144.596Q540.2579999999999 143.4 541.2699999999999 140.042Q541.4539999999998 139.444 541.8679999999999 139.444Q542.1899999999998 139.444 542.2819999999999 139.72Q542.3739999999999 139.996 542.1439999999999 140.732Q541.2699999999999 143.86 540.2349999999999 145.51600000000002Q539.1999999999999 147.172 538.1419999999998 147.793Q537.0839999999998 148.414 536.0719999999999 148.414Z M549.2279999999998 148.414Q547.7099999999998 148.414 546.0309999999998 147.954Q544.3519999999999 147.494 543.4779999999998 146.804Q543.1559999999998 146.528 543.2019999999998 145.976L544.2139999999998 139.95Q544.3059999999998 139.352 544.7659999999998 139.352Q545.2719999999998 139.352 545.2719999999998 139.996L545.3639999999998 142.204Q545.4559999999998 144.826 546.6289999999998 146.04500000000002Q547.8019999999998 147.264 549.5039999999998 147.264Q550.9759999999998 147.264 552.0339999999999 146.321Q553.0919999999999 145.378 553.0919999999999 143.538Q553.0919999999999 142.48 552.7699999999999 141.583Q552.4479999999999 140.686 551.7579999999998 139.651Q551.0679999999999 138.61599999999999 549.8719999999998 137.144Q548.3079999999999 135.12 547.5489999999999 133.671Q546.7899999999998 132.222 546.7899999999998 130.65800000000002Q546.7899999999998 127.76 548.6069999999999 126.012Q550.4239999999999 124.264 553.2299999999998 124.264Q554.4719999999999 124.264 555.6449999999999 124.632Q556.8179999999999 125.0 557.5999999999998 125.736Q558.0139999999998 126.05799999999999 557.8759999999999 126.564L556.5879999999999 132.728Q556.4499999999998 133.326 556.0359999999998 133.326Q555.6219999999998 133.326 555.5299999999999 132.682L555.3919999999998 130.474Q555.2079999999999 127.714 554.6789999999999 126.518Q554.1499999999999 125.322 552.4939999999998 125.322Q551.0219999999998 125.322 550.1019999999999 126.334Q549.1819999999998 127.346 549.1819999999998 128.772Q549.1819999999998 130.29 550.0099999999998 131.555Q550.8379999999999 132.82 552.2639999999998 134.752Q554.1499999999999 137.236 554.8169999999998 138.708Q555.4839999999998 140.18 555.4839999999998 141.698Q555.4839999999998 143.63 554.6329999999998 145.148Q553.7819999999998 146.666 552.3559999999998 147.54Q550.9299999999998 148.414 549.2279999999998 148.414Z" fill="#1D1B18"/></g></svg></a>
+    <div class="search" id="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" placeholder="Rechercher : coton 380 g, lin, 100x150…" autocomplete="off">
+      <div class="sresults" id="sres"></div>
+    </div>
+    <div class="hicons">
+      <button class="hbtn msearch" onclick="$('#search').classList.toggle('open');$('#q').focus()" aria-label="Rechercher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <a class="hbtn" href="#devis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16v16H4zM8 9h8M8 13h8M8 17h5"/></svg><span class="lbl">Devis volume</span></a>
+      <button class="hbtn cartbtn" onclick="openCart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 7h18v13H3zM3 7l3-4h12l3 4M9 11h6"/></svg><span class="badge" id="cartCount">0</span><span class="lbl" id="cartTotalH">0 DH</span></button>
+    </div>
+  </div>
+  <nav class="cats"><div class="wrap" id="navSlot"></div></nav>
+</header>
+
+<div class="mnav" id="mnav"></div>
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div style="width:200px;margin-bottom:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 617 216"><rect width="617" height="216" fill="#1D1B18"/><g transform="translate(28,28)"><g transform="translate(0,8) scale(1.24)">
+<path d="M6 42 L50 11 L94 42" fill="none" stroke="#C4502A" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+<rect x="15" y="51" width="68" height="13" fill="#F3EDE1"/>
+<rect x="21" y="67" width="64" height="13" fill="#C9A57A"/>
+<rect x="13" y="83" width="74" height="13" fill="#F3EDE1"/></g><path d="M154.16 104.0V20.799999999999997H190.144V34.528000000000006H169.76V54.808H189.10399999999998V68.536H169.76V90.272H190.144V104.0Z M200.75199999999998 104.0V20.799999999999997H223.32L229.55999999999997 47.32L235.27999999999997 90.272H237.98399999999998L235.07199999999997 56.472L233.82399999999998 20.799999999999997H248.904V104.0H225.19199999999998L218.952 76.75200000000001L214.688 34.42400000000001H211.77599999999998L214.48 72.072L215.832 104.0Z M271.212 104.0V34.528000000000006H257.848V20.799999999999997H300.176V34.528000000000006H286.812V104.0Z M309.12 104.0V20.799999999999997H329.192Q340.84 20.799999999999997 346.014 25.506Q351.188 30.212000000000003 351.55199999999996 41.080000000000005Q351.65599999999995 43.992000000000004 351.68199999999996 46.176Q351.70799999999997 48.36 351.68199999999996 50.544Q351.65599999999995 52.728 351.55199999999996 55.64Q351.344 62.4 349.28999999999996 66.71600000000001Q347.236 71.03200000000001 342.91999999999996 73.32L352.69599999999997 104.0H336.15999999999997L328.256 75.92H324.71999999999997V104.0ZM324.71999999999997 62.192H329.192Q332.46799999999996 62.192 334.13199999999995 60.684Q335.796 59.176 335.952 56.472Q336.108 53.924 336.15999999999997 51.141999999999996Q336.212 48.36 336.15999999999997 45.578Q336.108 42.796 335.952 40.248000000000005Q335.796 37.492000000000004 334.13199999999995 36.010000000000005Q332.46799999999996 34.528000000000006 329.192 34.528000000000006H324.71999999999997Z M362.888 104.0V20.799999999999997H398.87199999999996V34.528000000000006H378.48799999999994V54.808H397.83199999999994V68.536H378.48799999999994V90.272H398.87199999999996V104.0Z M409.47999999999996 104.0V20.799999999999997H429.5519999999999Q441.19999999999993 20.799999999999997 446.3739999999999 25.506Q451.54799999999994 30.212000000000003 451.9119999999999 41.080000000000005Q452.0679999999999 45.448 452.0679999999999 49.192Q452.0679999999999 52.936 451.9119999999999 57.304Q451.54799999999994 68.12 446.3739999999999 72.852Q441.19999999999993 77.584 429.5519999999999 77.584H425.0799999999999V104.0ZM425.0799999999999 63.856H429.5519999999999Q432.8279999999999 63.856 434.49199999999996 62.348Q436.15599999999995 60.84 436.31199999999995 58.136Q436.46799999999996 55.588 436.52 52.39Q436.57199999999995 49.192 436.52 45.994Q436.46799999999996 42.796 436.31199999999995 40.248000000000005Q436.15599999999995 37.492000000000004 434.49199999999996 36.010000000000005Q432.8279999999999 34.528000000000006 429.5519999999999 34.528000000000006H425.0799999999999Z M484.2039999999999 105.04Q472.7639999999999 105.04 467.64199999999994 100.20400000000001Q462.5199999999999 95.368 462.25999999999993 84.136Q462.15599999999995 79.04 462.1039999999999 73.52799999999999Q462.0519999999999 68.01599999999999 462.0519999999999 62.348Q462.0519999999999 56.68 462.1039999999999 51.168000000000006Q462.15599999999995 45.656000000000006 462.25999999999993 40.56Q462.5199999999999 29.38000000000001 467.64199999999994 24.570000000000007Q472.7639999999999 19.760000000000005 484.2039999999999 19.760000000000005Q495.6959999999999 19.760000000000005 500.68799999999993 24.570000000000007Q505.67999999999995 29.38000000000001 506.0439999999999 40.56Q506.2519999999999 45.760000000000005 506.3559999999999 51.272000000000006Q506.4599999999999 56.784 506.4599999999999 62.426Q506.4599999999999 68.06800000000001 506.3559999999999 73.554Q506.2519999999999 79.04 506.0439999999999 84.136Q505.67999999999995 95.368 500.68799999999993 100.20400000000001Q495.6959999999999 105.04 484.2039999999999 105.04ZM484.2039999999999 92.352Q487.27199999999993 92.352 488.83199999999994 90.974Q490.39199999999994 89.596 490.4439999999999 87.048Q490.70399999999995 81.744 490.80799999999994 75.4Q490.9119999999999 69.05600000000001 490.9119999999999 62.348000000000006Q490.9119999999999 55.64 490.80799999999994 49.29600000000001Q490.70399999999995 42.952000000000005 490.4439999999999 37.647999999999996Q490.39199999999994 35.152 488.7799999999999 33.800000000000004Q487.1679999999999 32.44800000000001 484.2039999999999 32.44800000000001Q481.2399999999999 32.44800000000001 479.6019999999999 33.800000000000004Q477.96399999999994 35.152 477.8599999999999 37.647999999999996Q477.65199999999993 42.952000000000005 477.52199999999993 49.29600000000001Q477.39199999999994 55.64 477.39199999999994 62.348000000000006Q477.39199999999994 69.05600000000001 477.52199999999993 75.4Q477.65199999999993 81.744 477.8599999999999 87.048Q477.96399999999994 89.596 479.6019999999999 90.974Q481.2399999999999 92.352 484.2039999999999 92.352Z M528.1959999999999 104.0V34.528000000000006H514.8319999999999V20.799999999999997H557.1599999999999V34.528000000000006H543.7959999999998V104.0Z" fill="#F3EDE1"/><path d="M460.5 18.7 L484.2 1.0 L508.0 18.7" fill="none" stroke="#C4502A" stroke-width="8.8" stroke-linejoin="miter" stroke-linecap="square"/><rect x="150" y="133" width="269.9" height="3" fill="#F3EDE1"/><path d="M438.0459999999999 148.414Q436.3439999999999 148.414 435.42399999999986 146.988Q434.5039999999999 145.562 434.5039999999999 142.802Q434.5039999999999 140.18 435.2399999999999 137.535Q435.9759999999999 134.89 437.2639999999999 132.498Q438.5519999999999 130.106 440.1849999999999 128.266Q441.81799999999987 126.426 443.6349999999999 125.345Q445.4519999999999 124.264 447.24599999999987 124.264Q448.4879999999999 124.264 449.4079999999999 124.908Q450.0519999999999 125.322 450.1899999999999 124.632L451.6619999999999 118.56Q451.8919999999999 117.732 451.6849999999999 117.41Q451.4779999999999 117.088 450.8339999999999 117.042L449.4539999999999 116.904Q448.7639999999999 116.858 448.8559999999999 116.306Q448.94799999999987 115.892 449.4999999999999 115.8Q451.1559999999999 115.524 452.4439999999999 115.133Q453.7319999999999 114.74199999999999 454.5139999999999 114.098Q454.8819999999999 113.822 455.2039999999999 113.822Q455.7559999999999 113.822 455.6179999999999 114.512L449.0859999999999 142.802Q448.3959999999999 145.792 450.0059999999999 145.792Q451.0639999999999 145.792 451.9149999999999 144.36599999999999Q452.7659999999999 142.94 453.6399999999999 139.95Q453.7779999999999 139.444 454.2379999999999 139.444Q454.5599999999999 139.444 454.65199999999993 139.72Q454.7439999999999 139.996 454.6519999999999 140.364Q453.7779999999999 144.688 452.2369999999999 146.551Q450.6959999999999 148.414 448.62599999999986 148.414Q446.8319999999999 148.414 446.07299999999987 146.896Q445.3139999999999 145.378 445.9119999999999 142.756L446.4179999999999 140.64Q446.5099999999999 140.318 446.3029999999999 140.272Q446.0959999999999 140.226 445.9579999999999 140.502Q443.7499999999999 144.826 441.7719999999999 146.62Q439.79399999999987 148.414 438.0459999999999 148.414ZM439.14999999999986 146.068Q440.2539999999999 146.068 441.5879999999999 144.734Q442.9219999999999 143.4 444.2329999999999 141.284Q445.54399999999987 139.168 446.6479999999999 136.73000000000002Q447.7519999999999 134.292 448.41899999999987 132.038Q449.0859999999999 129.784 449.0859999999999 128.22Q449.0859999999999 125.414 447.1079999999999 125.414Q445.9119999999999 125.414 444.5779999999999 126.495Q443.2439999999999 127.576 442.02499999999986 129.416Q440.80599999999987 131.256 439.8169999999999 133.579Q438.8279999999999 135.902 438.2299999999999 138.409Q437.6319999999999 140.916 437.6319999999999 143.308Q437.6319999999999 144.918 438.0689999999999 145.493Q438.5059999999999 146.068 439.14999999999986 146.068Z M461.6439999999999 148.414Q459.20599999999985 148.414 457.73399999999987 146.505Q456.2619999999999 144.596 456.2619999999999 141.1Q456.2619999999999 138.064 457.34299999999985 135.074Q458.42399999999986 132.084 460.17199999999985 129.64600000000002Q461.91999999999985 127.208 464.01299999999986 125.73599999999999Q466.1059999999999 124.264 468.0839999999999 124.264Q470.24599999999987 124.264 471.18899999999985 125.299Q472.1319999999999 126.334 472.1319999999999 128.082Q472.1319999999999 130.152 470.6829999999999 132.199Q469.23399999999987 134.246 466.6349999999999 135.856Q464.0359999999999 137.466 460.53999999999985 138.248Q459.52799999999985 138.478 459.48199999999986 139.398Q459.43599999999986 139.72 459.43599999999986 140.065Q459.43599999999986 140.41 459.43599999999986 140.732Q459.43599999999986 143.354 460.33299999999986 144.688Q461.22999999999985 146.022 462.79399999999987 146.022Q464.54199999999986 146.022 466.17499999999984 144.41199999999998Q467.8079999999999 142.802 468.91199999999986 139.858Q469.04999999999984 139.444 469.4639999999999 139.444Q469.73999999999984 139.444 469.80899999999986 139.67399999999998Q469.8779999999999 139.904 469.7859999999999 140.226Q468.31399999999985 144.274 466.2209999999999 146.344Q464.1279999999999 148.414 461.6439999999999 148.414ZM459.9419999999999 136.5Q459.84999999999985 136.822 460.05699999999985 137.029Q460.26399999999984 137.236 460.58599999999984 137.144Q463.4379999999999 136.362 465.3699999999999 134.77499999999998Q467.30199999999985 133.188 468.2909999999998 131.20999999999998Q469.27999999999986 129.232 469.27999999999986 127.346Q469.27999999999986 125.414 467.7619999999999 125.414Q466.4279999999999 125.414 464.86399999999986 126.97800000000001Q463.29999999999984 128.542 461.9659999999999 131.072Q460.6319999999999 133.602 459.9419999999999 136.5Z M477.05399999999986 148.414Q475.53599999999983 148.414 473.85699999999986 147.954Q472.1779999999998 147.494 471.30399999999986 146.804Q470.98199999999986 146.528 471.02799999999985 145.976L472.03999999999985 139.95Q472.13199999999983 139.352 472.59199999999987 139.352Q473.09799999999984 139.352 473.09799999999984 139.996L473.1899999999998 142.204Q473.28199999999987 144.826 474.45499999999987 146.04500000000002Q475.6279999999999 147.264 477.32999999999987 147.264Q478.80199999999985 147.264 479.85999999999984 146.321Q480.91799999999984 145.378 480.91799999999984 143.538Q480.91799999999984 142.48 480.59599999999983 141.583Q480.27399999999983 140.686 479.58399999999983 139.651Q478.89399999999983 138.61599999999999 477.69799999999987 137.144Q476.13399999999984 135.12 475.3749999999999 133.671Q474.6159999999999 132.222 474.6159999999999 130.65800000000002Q474.6159999999999 127.76 476.4329999999999 126.012Q478.24999999999983 124.264 481.05599999999987 124.264Q482.29799999999983 124.264 483.47099999999983 124.632Q484.64399999999983 125.0 485.4259999999999 125.736Q485.83999999999986 126.05799999999999 485.7019999999998 126.564L484.4139999999999 132.728Q484.27599999999984 133.326 483.86199999999985 133.326Q483.44799999999987 133.326 483.3559999999998 132.682L483.21799999999985 130.474Q483.0339999999998 127.714 482.5049999999998 126.518Q481.97599999999983 125.322 480.3199999999998 125.322Q478.84799999999984 125.322 477.9279999999999 126.334Q477.00799999999987 127.346 477.00799999999987 128.772Q477.00799999999987 130.29 477.8359999999999 131.555Q478.6639999999999 132.82 480.08999999999986 134.752Q481.97599999999983 137.236 482.6429999999998 138.708Q483.30999999999983 140.18 483.30999999999983 141.698Q483.30999999999983 143.63 482.45899999999983 145.148Q481.60799999999983 146.666 480.18199999999985 147.54Q478.75599999999986 148.414 477.05399999999986 148.414Z  M490.57799999999986 148.0Q490.02599999999984 148.0 490.02599999999984 147.54Q490.02599999999984 147.126 490.76199999999983 146.942L491.4979999999998 146.804Q492.41799999999984 146.62 493.0849999999998 145.90699999999998Q493.75199999999984 145.194 494.34999999999985 143.906L508.1039999999998 115.156Q508.33399999999983 114.696 508.56399999999985 114.55799999999999Q508.7939999999998 114.42 508.97799999999984 114.42Q509.20799999999986 114.42 509.36899999999986 114.55799999999999Q509.52999999999986 114.696 509.52999999999986 115.156L510.03599999999983 144.32Q510.0819999999998 145.608 510.35799999999983 146.091Q510.63399999999984 146.574 511.5079999999998 146.804L512.1059999999999 146.942Q512.6579999999998 147.08 512.6579999999998 147.494Q512.6579999999998 148.0 511.87599999999986 148.0H504.28599999999983Q503.6879999999998 148.0 503.6879999999998 147.54Q503.6879999999998 147.034 504.60799999999983 146.942L505.52799999999985 146.85Q506.30999999999983 146.758 506.6089999999998 146.344Q506.90799999999984 145.93 506.90799999999984 144.918L506.81599999999986 137.788Q506.81599999999986 136.592 505.57399999999984 136.592H500.6519999999998Q499.45599999999985 136.592 498.85799999999983 137.788L495.8679999999998 143.952Q494.62599999999986 146.574 496.69599999999986 146.85L497.33999999999986 146.942Q498.02999999999986 147.034 498.02999999999986 147.494Q498.02999999999986 148.0 497.2479999999998 148.0ZM500.83599999999984 135.212H505.98799999999983Q506.7699999999998 135.212 506.7699999999998 134.43L506.6779999999998 121.872H506.4479999999998L500.42199999999985 134.43Q500.23799999999983 134.752 500.37599999999986 134.982Q500.51399999999984 135.212 500.83599999999984 135.212Z M517.3959999999998 148.0Q516.7519999999998 148.0 516.8899999999999 147.402L521.2599999999999 129.048Q521.4899999999999 128.036 521.329 127.461Q521.1679999999999 126.886 520.4779999999998 126.886Q519.6499999999999 126.886 518.6609999999998 128.10500000000002Q517.6719999999999 129.324 516.4299999999998 132.728Q516.2459999999999 133.326 515.7859999999998 133.326Q515.0959999999999 133.326 515.4179999999999 132.498Q516.4299999999998 129.324 517.5569999999998 127.53Q518.6839999999999 125.736 519.8339999999998 125.0Q520.9839999999999 124.264 521.9499999999999 124.264Q523.4679999999998 124.264 524.1119999999999 125.39099999999999Q524.7559999999999 126.518 524.1579999999999 129.094L523.6519999999999 131.256Q523.6059999999999 131.578 523.79 131.62400000000002Q523.9739999999999 131.67000000000002 524.1119999999999 131.394Q525.8599999999999 127.392 527.2859999999998 125.828Q528.7119999999999 124.264 530.5519999999999 124.264Q531.7939999999999 124.264 532.4149999999998 124.931Q533.0359999999998 125.598 533.0359999999998 126.748Q533.0359999999998 127.898 532.4839999999999 128.588Q531.9319999999999 129.278 531.0579999999999 129.278Q530.3219999999999 129.278 529.9999999999999 128.91Q529.6779999999999 128.542 529.5169999999998 128.059Q529.3559999999999 127.576 529.1719999999998 127.208Q528.9879999999998 126.84 528.5739999999998 126.84Q527.8839999999999 126.84 526.78 128.58800000000002Q525.6759999999999 130.336 524.4109999999998 133.303Q523.1459999999998 136.27 521.9729999999998 139.95Q520.7999999999998 143.63 519.9259999999999 147.494Q519.7879999999999 148.0 519.2819999999999 148.0Z M536.0719999999999 148.414Q534.5079999999999 148.414 533.6339999999999 147.172Q532.7599999999999 145.93 533.3579999999998 143.17L537.1759999999999 126.518Q537.3139999999999 125.828 536.6239999999999 125.828H534.8759999999999Q534.2319999999999 125.828 534.2319999999999 125.23Q534.2319999999999 124.908 534.4619999999999 124.72399999999999Q534.6919999999999 124.53999999999999 535.0139999999999 124.53999999999999H536.6699999999998Q537.7279999999998 124.53999999999999 537.9119999999999 123.574L539.0159999999998 118.652Q539.1539999999999 118.146 539.6599999999999 118.146H541.5459999999999Q542.1899999999998 118.146 542.0519999999999 118.744L540.9019999999999 123.85Q540.7639999999999 124.53999999999999 541.4539999999998 124.53999999999999H544.0759999999999Q544.8579999999998 124.53999999999999 544.8579999999998 125.138Q544.8579999999998 125.828 543.8919999999998 125.828H541.4079999999999Q540.3959999999998 125.828 540.1659999999998 126.794L536.3019999999999 143.63Q536.0719999999999 144.642 536.3709999999999 145.21699999999998Q536.6699999999998 145.792 537.4059999999998 145.792Q538.4639999999998 145.792 539.3609999999999 144.596Q540.2579999999999 143.4 541.2699999999999 140.042Q541.4539999999998 139.444 541.8679999999999 139.444Q542.1899999999998 139.444 542.2819999999999 139.72Q542.3739999999999 139.996 542.1439999999999 140.732Q541.2699999999999 143.86 540.2349999999999 145.51600000000002Q539.1999999999999 147.172 538.1419999999998 147.793Q537.0839999999998 148.414 536.0719999999999 148.414Z M549.2279999999998 148.414Q547.7099999999998 148.414 546.0309999999998 147.954Q544.3519999999999 147.494 543.4779999999998 146.804Q543.1559999999998 146.528 543.2019999999998 145.976L544.2139999999998 139.95Q544.3059999999998 139.352 544.7659999999998 139.352Q545.2719999999998 139.352 545.2719999999998 139.996L545.3639999999998 142.204Q545.4559999999998 144.826 546.6289999999998 146.04500000000002Q547.8019999999998 147.264 549.5039999999998 147.264Q550.9759999999998 147.264 552.0339999999999 146.321Q553.0919999999999 145.378 553.0919999999999 143.538Q553.0919999999999 142.48 552.7699999999999 141.583Q552.4479999999999 140.686 551.7579999999998 139.651Q551.0679999999999 138.61599999999999 549.8719999999998 137.144Q548.3079999999999 135.12 547.5489999999999 133.671Q546.7899999999998 132.222 546.7899999999998 130.65800000000002Q546.7899999999998 127.76 548.6069999999999 126.012Q550.4239999999999 124.264 553.2299999999998 124.264Q554.4719999999999 124.264 555.6449999999999 124.632Q556.8179999999999 125.0 557.5999999999998 125.736Q558.0139999999998 126.05799999999999 557.8759999999999 126.564L556.5879999999999 132.728Q556.4499999999998 133.326 556.0359999999998 133.326Q555.6219999999998 133.326 555.5299999999999 132.682L555.3919999999998 130.474Q555.2079999999999 127.714 554.6789999999999 126.518Q554.1499999999999 125.322 552.4939999999998 125.322Q551.0219999999998 125.322 550.1019999999999 126.334Q549.1819999999998 127.346 549.1819999999998 128.772Q549.1819999999998 130.29 550.0099999999998 131.555Q550.8379999999999 132.82 552.2639999999998 134.752Q554.1499999999999 137.236 554.8169999999998 138.708Q555.4839999999998 140.18 555.4839999999998 141.698Q555.4839999999998 143.63 554.6329999999998 145.148Q553.7819999999998 146.666 552.3559999999998 147.54Q550.9299999999998 148.414 549.2279999999998 148.414Z" fill="#F3EDE1"/></g></svg></div>
+        <p>Le stock des artistes. Toiles et châssis en direct de l'importateur, en carton et en grand format, livrés partout au Maroc.</p>
+      </div>
+      <div><h4>Le stock</h4><a href="#toiles">Toutes les toiles</a><a href="#toiles-grands">Grands formats</a><a href="#toiles-cartons">Cartons & lots</a><a href="#toiles-rouleaux">Toile en rouleau</a><a href="#formats">Tarifs par format</a></div>
+      <div><h4>Service</h4><a href="#devis">Devis grand volume</a><a href="#livraison">Livraison & paiement</a><a href="#livraison">Retours</a><a href="#contact">Contact</a></div>
+      <div><h4>Contact</h4>
+        <p>Casablanca, Maroc</p>
+        <p>+212 664 320 449</p>
+        <p>contact@entrepotdesarts.ma</p>
+        <p style="font-size:12px;margin-top:6px">Lun–ven 9h00–18h00 · sam 9h00–13h00</p>
+        <form class="nl" onsubmit="event.preventDefault();toast('Inscrit. Vous recevrez les arrivages en premier.');this.reset()"><input type="email" required placeholder="Votre e-mail"><button>OK</button></form>
+      </div>
+    </div>
+    <div class="bottom"><span>© 2026 Entrepôt des Arts</span><span>Conditions générales · Confidentialité · Mentions légales</span></div>
+  </div>
+</footer>
+
+<div class="overlay" id="ov" onclick="closeAll()"></div>
+<aside class="drawer" id="drawer" aria-label="Panier">
+  <header><h3 class="d">Votre commande</h3><button onclick="closeAll()" aria-label="Fermer" style="font-size:28px">×</button></header>
+  <div class="dlist" id="dlist"></div>
+  <div class="dfoot" id="dfoot"></div>
+</aside>
+<a class="wafab" href="https://wa.me/212664320449" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg></a>
+<div class="toast" id="toast"></div>
+
+<script>
+const MARK=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104"><g transform="translate(2,2)"><g transform="translate(0,0) scale(1.0)">
+<path d="M6 42 L50 11 L94 42" fill="none" stroke="#C4502A" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+<rect x="15" y="51" width="68" height="13" fill="#1D1B18"/>
+<rect x="21" y="67" width="64" height="13" fill="#C9A57A"/>
+<rect x="13" y="83" width="74" height="13" fill="#1D1B18"/></g></g></svg>`;
+/* ---------- Product drawings ---------- */
+let uid=0;
+function canvasSVG(w,h,o={}){
+  const id='g'+(uid++),sc=100/Math.max(w,h),W=w*sc,H=h*sc,d=(o.depth||2)*2.2+2;
+  const base=o.linen?'#E2D6BF':o.jute?'#C4A577':'#FBF8F2',tex=o.linen?'#D1C3A6':o.jute?'#A88B5E':'#ECE6DA';
+  const s1=o.linen?'#C9BB9C':o.jute?'#9B7F54':'#DDD4C4',s2=o.linen?'#BBAC8C':o.jute?'#8D724A':'#CFC5B2';
+  return `<svg viewBox="-4 -4 ${W+d+10} ${H+d+10}" xmlns="http://www.w3.org/2000/svg">
+  <defs><pattern id="${id}" width="3" height="3" patternUnits="userSpaceOnUse"><path d="M0 1.5h3M1.5 0v3" stroke="${tex}" stroke-width=".5"/></pattern></defs>
+  <polygon points="${W},0 ${W+d},${d} ${W+d},${H+d} ${W},${H}" fill="${s1}"/><polygon points="0,${H} ${d},${H+d} ${W+d},${H+d} ${W},${H}" fill="${s2}"/>
+  <rect width="${W}" height="${H}" fill="${base}"/><rect width="${W}" height="${H}" fill="url(#${id})"/>
+  ${o.art?`<rect x="${W*.14}" y="${H*.56}" width="${W*.72}" height="${H*.09}" fill="#1D1B18"/><rect x="${W*.22}" y="${H*.68}" width="${W*.66}" height="${H*.09}" fill="#C9A57A"/><rect x="${W*.1}" y="${H*.8}" width="${W*.8}" height="${H*.09}" fill="#1D1B18"/><path d="M${W*.1} ${H*.46} L${W*.5} ${H*.2} L${W*.9} ${H*.46}" fill="none" stroke="#C4502A" stroke-width="${Math.min(W,H)*.07}"/>`:''}</svg>`;
+}
+function stackSVG(n){ // a carton of canvases seen edge-on
+  let s='';for(let i=0;i<n;i++){const y=70-i*9,x=10+(i%2)*4;s+=`<rect x="${x}" y="${y}" width="${80-(i%3)*4}" height="7" fill="${i%2?'#C9A57A':'#FBF8F2'}" stroke="#1D1B18" stroke-width="1.2"/>`}
+  return `<svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="78" width="92" height="6" fill="#1D1B18"/>${s}</svg>`;
+}
+function rollSVG(o={}){
+  const col=o.jute?'#C4A577':o.linen?'#E2D6BF':'#FBF8F2',dk=o.jute?'#9B7F54':o.linen?'#C9BB9C':'#DDD4C4';
+  return `<svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg"><ellipse cx="22" cy="40" rx="14" ry="30" fill="${dk}" stroke="#1D1B18" stroke-width="1.2"/><rect x="22" y="10" width="76" height="60" fill="${col}"/><path d="M22 10H98M22 70H98" stroke="#1D1B18" stroke-width="1.2"/><ellipse cx="98" cy="40" rx="14" ry="30" fill="${col}" stroke="#1D1B18" stroke-width="1.2"/><ellipse cx="98" cy="40" rx="5" ry="10" fill="#1D1B18"/><path d="M22 70 L22 82 L104 86 L98 70Z" fill="${col}" stroke="#1D1B18" stroke-width="1.2"/></svg>`;
+}
+function stretcherSVG(w,h){
+  const sc=100/Math.max(w,h),W=w*sc,H=h*sc,b=7;
+  return `<svg viewBox="-4 -4 ${W+8} ${H+8}" xmlns="http://www.w3.org/2000/svg"><g fill="#D9B98A" stroke="#1D1B18" stroke-width="1.2"><rect x="0" y="0" width="${W}" height="${b}"/><rect x="0" y="${H-b}" width="${W}" height="${b}"/><rect x="0" y="0" width="${b}" height="${H}"/><rect x="${W-b}" y="0" width="${b}" height="${H}"/>${W>60&&H>60?`<rect x="${W/2-b/2}" y="0" width="${b}" height="${H}"/>`:''}</g><g fill="#1D1B18"><path d="M${b} ${b+1}l5 0-5 5z"/><path d="M${W-b} ${b+1}l-5 0 5 5z"/><path d="M${b} ${H-b-1}l5 0-5-5z"/><path d="M${W-b} ${H-b-1}l-5 0 5-5z"/></g></svg>`;
+}
+
+/* ---------- Catalogue (prix indicatifs) ---------- */
+const STD=['20x20','24x30','30x30','30x40','40x40','40x50','50x50','50x60','50x70','60x80','70x100','80x100','100x100','100x150','120x160','150x200'];
+const area=s=>{const m=s.match(/(\d+)x(\d+)/);return m?m[1]*m[2]:0};
+const isBig=s=>{const m=s.match(/(\d+)x(\d+)/);return m&&Math.max(+m[1],+m[2])>=100};
+const r5=n=>Math.max(5,Math.round(n/5)*5);
+function priced(sizes,base,k,seed){return sizes.map((s,i)=>({size:s,price:r5(base+area(s)*k),stock:((i*7+seed)%13===4)?0:((i*5+seed)%9===2?4:40)}))}
+const cartonOf=s=>isBig(s)?3:(area(s)>=3000?5:10);
+const PACK_DISC={1:0,carton:.12};
+
+const P=[
+ {id:'coton-atelier-380',sub:'coton',name:'Toile coton Atelier 380 g',
+  short:'Notre toile de travail. Coton 380 g/m², triple apprêt universel, châssis pin 18 mm. Pour l\'huile et l\'acrylique, de l\'esquisse au grand format.',
+  attrs:{matiere:'Coton',grammage:'380 g/m²',chassis:'18 mm',apprete:'Universel'},v:priced(STD,15,0.022,1),kind:'canvas',best:1,
+  desc:['La toile que l\'on rachète par carton. Un coton lourd et régulier, tendu à la machine sur un châssis en pin séché, agrafé au dos, coins pliés propres. Le triple apprêt accepte l\'huile comme l\'acrylique sans préparation.','À partir de 100 cm, le châssis reçoit une traverse pour rester plan.'],
+  specs:{'Composition':'100 % coton','Grammage':'380 g/m²','Apprêt':'Triple, universel, blanc','Châssis':'Pin séché, 18 mm','Traverse':'Dès 100 cm','Fixation':'Agrafes au dos, clés incluses'}},
+ {id:'coton-profond-3d',sub:'coton',name:'Toile coton Profond 3D 38 mm',
+  short:'Châssis de 38 mm, bords peints, prête à exposer sans cadre. Le choix des artistes qui vendent en galerie.',
+  attrs:{matiere:'Coton',grammage:'380 g/m²',chassis:'38 mm',apprete:'Universel'},v:priced(STD.filter(s=>s!=='24x30'),25,0.029,2),kind:'canvas',depth:4,badge:'Galerie',
+  desc:['Un châssis profond qui donne de la présence au mur. Agrafes au dos : la peinture continue sur les bords.'],
+  specs:{'Composition':'100 % coton','Grammage':'380 g/m²','Châssis':'Pin, 38 mm','Traverse':'Dès 80 cm','Fixation':'Agrafes au dos, clés incluses'}},
+ {id:'lin-pro',sub:'lin',name:'Toile lin Pro grain fin',
+  short:'Lin belge 400 g/m², double apprêt. Le support des portraitistes et du travail en glacis.',
+  attrs:{matiere:'Lin',grammage:'400 g/m²',chassis:'20 mm',apprete:'Universel'},v:priced(STD.filter(s=>!['150x200','50x50'].includes(s)),30,0.045,3),kind:'canvas',linen:0,
+  desc:['Plus stable et plus durable que le coton, le lin reste la référence pour l\'huile. Grain fin et régulier.'],
+  specs:{'Composition':'100 % lin','Grammage':'400 g/m²','Grain':'Fin','Apprêt':'Double, universel','Châssis':'Pin, 20 mm'}},
+ {id:'lin-naturel',sub:'lin',name:'Toile lin naturel apprêt transparent',
+  short:'Lin écru visible sous un apprêt incolore. Pour garder la couleur du lin dans l\'œuvre et les techniques mixtes.',
+  attrs:{matiere:'Lin',grammage:'360 g/m²',chassis:'20 mm',apprete:'Transparent'},v:priced(['30x30','30x40','40x50','50x70','60x80','80x100','100x100','100x150'],25,0.042,4),kind:'canvas',linen:1,badge:'Nouveau',
+  desc:['La teinte chaude du lin brut reste visible : fonds réservés, broderie, collage.'],
+  specs:{'Composition':'100 % lin','Grammage':'360 g/m²','Apprêt':'Transparent','Châssis':'Pin, 20 mm'}},
+ {id:'carton-10-atelier',sub:'cartons',name:'Carton de 10 — coton Atelier',
+  short:'Dix toiles identiques, coton 380 g, emballées pour l\'atelier. Le prix le plus bas par toile.',
+  attrs:{matiere:'Coton',grammage:'380 g/m²',chassis:'18 mm',apprete:'Universel'},
+  v:['24x30','30x40','40x50','50x60','50x70','60x80'].map((s,i)=>{const u=r5(15+area(s)*0.022);return{size:s,price:r5(u*10*0.82),old:u*10,stock:40}}),kind:'carton',fixedPack:10,best:1,
+  desc:['Le même coton Atelier 380 g, en carton fermé de 10 : environ 18 % moins cher qu\'à l\'unité. Idéal pour les séries, les cours et les ateliers.'],
+  specs:{'Contenu':'10 toiles identiques','Composition':'100 % coton 380 g/m²','Châssis':'18 mm'}},
+ {id:'carton-mixte-ecole',sub:'cartons',name:'Carton école — 30 toiles mixtes',
+  short:'10 × 24x30, 10 × 30x40, 10 × 40x50. Le carton des académies, écoles et ateliers d\'initiation.',
+  attrs:{matiere:'Coton',grammage:'380 g/m²',chassis:'18 mm',apprete:'Universel'},
+  v:[{size:'30 toiles mixtes',price:1490,old:1830,stock:12}],kind:'carton',fixedPack:30,
+  desc:['Un seul carton, trois formats pour toute une classe. Facture établissement disponible (ICE).'],
+  specs:{'Contenu':'10 × 24x30, 10 × 30x40, 10 × 40x50','Composition':'Coton 380 g/m²'}},
+ {id:'carton-entoile',sub:'panneaux',name:'Carton entoilé coton 3 mm',
+  short:'Toile coton contrecollée sur carton dur. Études, plein air, cours : léger et économique.',
+  attrs:{matiere:'Coton',grammage:'280 g/m²',chassis:'3 mm (panneau)',apprete:'Universel'},v:priced(['18x24','24x30','30x40','40x50','50x60'],6,0.011,5),kind:'panel',
+  desc:['Rigide, plat, empilable. Vendu à l\'unité ou par carton de 10.'],specs:{'Support':'Carton dur 3 mm','Toile':'Coton apprêté 280 g/m²'}},
+ {id:'rouleau-coton',sub:'rouleaux',name:'Toile coton en rouleau 210 cm',
+  short:'Coton apprêté 380 g, largeur 210 cm. En rouleau de 10 m ou coupé au mètre, pour vos grands formats sur mesure.',
+  attrs:{matiere:'Coton',grammage:'380 g/m²',chassis:'—',apprete:'Universel'},v:[{size:'Au mètre',price:240,stock:40},{size:'Rouleau 10 m',price:2190,stock:6}],kind:'roll',
+  desc:['Pour tendre vous-même ou faire monter en atelier. Coupé net, livré roulé dans un tube.'],specs:{'Largeur':'210 cm','Longueur':'Au mètre ou 10 m','Grammage':'380 g/m²'}},
+ {id:'rouleau-lin',sub:'rouleaux',name:'Toile lin en rouleau 210 cm',
+  short:'Lin apprêté 400 g pour les grands formats à l\'huile. Au mètre ou en rouleau de 10 m.',
+  attrs:{matiere:'Lin',grammage:'400 g/m²',chassis:'—',apprete:'Universel'},v:[{size:'Au mètre',price:420,stock:25},{size:'Rouleau 10 m',price:3890,stock:3}],kind:'roll',linen:1,
+  desc:['Un lin régulier et solide, apprêté universel.'],specs:{'Largeur':'210 cm','Grammage':'400 g/m²'}},
+ {id:'rouleau-jute',sub:'rouleaux',name:'Toile de jute en rouleau 210 cm',
+  short:'Jute brut à gros grain, non apprêté. Texture, décor, techniques mixtes.',
+  attrs:{matiere:'Jute',grammage:'—',chassis:'—',apprete:'Brut'},v:[{size:'Au mètre',price:160,stock:30},{size:'Rouleau 10 m',price:1450,stock:4}],kind:'roll',jute:1,
+  desc:['Une matière brute à préparer vous-même.'],specs:{'Largeur':'210 cm','Apprêt':'Aucun'}},
+ {id:'chassis-nu',sub:'chassis',name:'Châssis nu à clés, pin 20 mm',
+  short:'Châssis assemblé à entoiler vous-même. Clés incluses, traverse dès 100 cm.',
+  attrs:{matiere:'—',grammage:'—',chassis:'20 mm',apprete:'—'},v:priced(['30x40','40x50','50x70','60x80','80x100','100x100','100x150','120x160','150x200'],12,0.009,6),kind:'stretcher',
+  desc:['Pour les artistes qui tendent leur propre toile. Assemblage à tenons, angles réglables par clés.'],specs:{'Bois':'Pin séché','Section':'20 × 45 mm','Clés':'Incluses'}},
+];
+P.forEach((p,i)=>p.ref='EDA-'+String(101+i));
+const SUBS={coton:'Toiles coton',lin:'Toiles lin',cartons:'Cartons & lots',panneaux:'Cartons entoilés',rouleaux:'Toile en rouleau',chassis:'Châssis nus'};
+const FACETS=[['matiere','Matière'],['grammage','Grammage'],['chassis','Épaisseur du châssis'],['apprete','Apprêt']];
+
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+const fmt=n=>Math.round(n).toLocaleString('fr-FR').replace(/ /g,' ')+' DH';
+const byId=id=>P.find(p=>p.id===id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function WH(s){const m=s.match(/(\d+)x(\d+)/);return m?[+m[1],+m[2]]:[3,4]}
+function img(p,size){
+  const sz=size||(p.v.find(v=>v.size==='40x50')||p.v[0]).size,[w,h]=WH(sz);
+  if(p.kind==='canvas')return canvasSVG(w,h,{depth:p.depth||2,linen:p.linen,art:!p.linen});
+  if(p.kind==='panel')return canvasSVG(w,h,{depth:.4,art:1});
+  if(p.kind==='carton')return stackSVG(7);
+  if(p.kind==='roll')return rollSVG({linen:p.linen,jute:p.jute});
+  if(p.kind==='stretcher')return stretcherSVG(w,h);
+  return '';
+}
+const minPrice=p=>Math.min(...p.v.map(v=>v.price));
+const hasCarton=p=>!p.fixedPack&&p.kind!=='roll';
+function unitPrice(p,v,pack){return pack==='carton'?v.price*(1-PACK_DISC.carton):v.price}
+function stockHTML(v){return v.stock===0?'<span class="stockl low">Sur commande · 7–10 jours</span>':v.stock<=4?`<span class="stockl low">Plus que ${v.stock} en stock</span>`:'<span class="stockl ok">En stock · expédié sous 24 h</span>'}
+
+/* ---------- Cart ---------- */
+let cart=[];try{cart=JSON.parse(localStorage.getItem('edaCart')||'[]')}catch(e){}
+const FREE=1000;
+function saveCart(){try{localStorage.setItem('edaCart',JSON.stringify(cart))}catch(e){};renderBadge();renderDrawer()}
+// line: {id,size,pack:'unit'|'carton',qty}  qty = number of packs
+function piecesOf(l){const p=byId(l.id);return l.pack==='carton'?cartonOf(l.size)*l.qty:l.qty}
+function lineTotal(l){const p=byId(l.id),v=p.v.find(x=>x.size===l.size);return unitPrice(p,v,l.pack)*piecesOf(l)}
+function lineFull(l){const p=byId(l.id),v=p.v.find(x=>x.size===l.size);return (v.old?v.old:v.price)*piecesOf(l)}
+function add(id,size,pack,qty,silent){
+  const ex=cart.find(l=>l.id===id&&l.size===size&&l.pack===pack);
+  if(ex)ex.qty+=qty;else cart.push({id,size,pack,qty});
+  saveCart();if(!silent)openCart();
+}
+const subtotal=()=>cart.reduce((s,l)=>s+lineTotal(l),0);
+const savings=()=>cart.reduce((s,l)=>s+lineFull(l)-lineTotal(l),0);
+const pieces=()=>cart.reduce((s,l)=>s+piecesOf(l),0);
+function renderBadge(){$('#cartCount').textContent=pieces();$('#cartTotalH').textContent=fmt(subtotal())}
+function shipBar(){const st=subtotal();if(st>=FREE)return`<div class="shipbar"><b>Livraison offerte</b> partout au Maroc.<div class="bar"><i style="width:100%"></i></div></div>`;
+  return`<div class="shipbar">Encore <b>${fmt(FREE-st)}</b> pour la livraison offerte.<div class="bar"><i style="width:${st/FREE*100}%"></i></div></div>`}
+function packLabel(l){const p=byId(l.id);if(p.fixedPack)return'';return l.pack==='carton'?` · carton de ${cartonOf(l.size)}`:' · à l\'unité'}
+function lineHTML(l,i){const p=byId(l.id);
+  return`<div class="line"><div class="th">${img(p,l.size)}</div><div class="info"><b><a href="#produit-${p.id}" onclick="closeAll()">${esc(p.name)}</a></b>${esc(l.size)}${packLabel(l)} · ${piecesOf(l)} toile${piecesOf(l)>1?'s':''}
+  <div style="display:flex;gap:10px;align-items:center;margin-top:8px"><div class="qty"><button onclick="chQty(${i},-1)">−</button><input value="${l.qty}" onchange="setQty(${i},this.value)"><button onclick="chQty(${i},1)">+</button></div><button class="rm" onclick="rmLine(${i})">Retirer</button></div></div>
+  <div style="font-weight:800;white-space:nowrap">${fmt(lineTotal(l))}</div></div>`}
+function chQty(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);saveCart();if(location.hash==='#panier')route(true)}
+function setQty(i,v){cart[i].qty=Math.max(1,parseInt(v)||1);saveCart();if(location.hash==='#panier')route(true)}
+function rmLine(i){cart.splice(i,1);saveCart();if(location.hash==='#panier')route(true)}
+function renderDrawer(){
+  if(!cart.length){$('#dlist').innerHTML='<div class="empty" style="margin-top:20px">Votre commande est vide.</div>';$('#dfoot').innerHTML=`<a class="btn full" href="#toiles" onclick="closeAll()">Voir le stock</a>`;return}
+  $('#dlist').innerHTML=cart.map(lineHTML).join('');
+  const sv=savings();
+  $('#dfoot').innerHTML=shipBar()+(sv?`<div class="tot" style="color:var(--stock);font-weight:700"><span>Économie carton</span><span>−${fmt(sv)}</span></div>`:'')+`<div class="tot big"><span>Sous-total · ${pieces()} toiles</span><span>${fmt(subtotal())}</span></div>
+  <a class="btn full" style="margin-top:14px" href="#commande" onclick="closeAll()">Commander</a><a class="btn ghost full" style="margin-top:8px" href="#panier" onclick="closeAll()">Voir le détail</a>`;
+}
+function openCart(){renderDrawer();$('#drawer').classList.add('open');$('#ov').style.display='block'}
+function closeAll(){$('#drawer').classList.remove('open');$('#ov').style.display='none';toggleMnav(false);const f=$('.filters');f&&f.classList.remove('open')}
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600)}
+
+/* ---------- Nav ---------- */
+$('#navSlot').innerHTML=`<div class="navi"><a href="#toiles" data-k="toiles">Toiles</a>
+  <div class="mega"><div><h4>Par matière</h4>${Object.entries(SUBS).map(([s,t])=>`<a href="#toiles-${s}">${t}</a>`).join('')}<a href="#toiles" style="color:var(--ocre-fonce);font-weight:700;margin-top:6px">Tout le stock →</a></div>
+  <div><h4>Formats demandés</h4>${['30x40','40x50','50x70','100x100','100x150','150x200'].map(s=>`<a href="#toiles" onclick="presetSize='${s}'">${s.replace('x',' × ')} cm</a>`).join('')}</div>
+  <div class="promo"><b>Prix carton</b>−12 % dès un carton fermé, sur tous les formats. Encore moins avec nos cartons de 10.</div></div></div>
+  <div class="navi"><a href="#toiles-grands" data-k="toiles-grands">Grands formats</a></div>
+  <div class="navi"><a href="#toiles-cartons" data-k="toiles-cartons">Cartons & lots</a></div>
+  <div class="navi"><a href="#formats" data-k="formats">Tarifs par format</a></div>
+  <div class="navi"><a href="#devis" data-k="devis">Pros & écoles</a></div>
+  <div class="navi"><a href="#bientot" data-k="bientot">Cadres<span class="soon">BIENTÔT</span></a></div>`;
+$('#mnav').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div style="width:170px">${$('.logo').innerHTML}</div><button onclick="toggleMnav(false)" style="font-size:30px">×</button></div>
+  <h4>Le stock</h4><a href="#toiles" onclick="toggleMnav(false)">Toutes les toiles</a><a href="#toiles-grands" onclick="toggleMnav(false)">Grands formats</a>${Object.entries(SUBS).map(([s,t])=>`<a href="#toiles-${s}" onclick="toggleMnav(false)">${t}</a>`).join('')}
+  <h4>Acheter malin</h4><a href="#formats" onclick="toggleMnav(false)">Tarifs par format</a><a href="#devis" onclick="toggleMnav(false)">Devis grand volume</a><a href="#livraison" onclick="toggleMnav(false)">Livraison & paiement</a>`;
+function toggleMnav(o){$('#mnav').classList.toggle('open',o)}
+
+/* ---------- Cards ---------- */
+function card(p){
+  const v0=p.v.find(v=>v.size==='40x50')||p.v[0];
+  const from=minPrice(p);
+  const ctn=hasCarton(p)?`<div class="ct">${fmt(from*(1-PACK_DISC.carton))} / pièce en carton</div>`:p.fixedPack?`<div class="ct">soit ${fmt(from/p.fixedPack)} / toile</div>`:'';
+  return`<div class="card">${p.kind==='carton'?'<span class="tag">Prix carton</span>':p.badge?`<span class="tag k">${p.badge}</span>`:''}
+  <a href="#produit-${p.id}" class="img">${img(p)}</a>
+  <div class="body"><span class="m" style="color:var(--beton)">${SUBS[p.sub]} · ${p.ref}</span><h3><a href="#produit-${p.id}">${esc(p.name)}</a></h3>
+  <div class="meta">${p.v.length>1?`${p.v.length} formats · ${esc(p.v[0].size)} → ${esc(p.v[p.v.length-1].size)}`:esc(p.v[0].size)}</div>
+  <div class="foot"><div class="pr"><small>${p.v.length>1?'À partir de':'Prix'}</small><b>${fmt(from)}</b>${ctn}</div>
+  <button class="qadd" aria-label="Choisir" onclick="location.hash='produit-${p.id}'"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div></div>`;
+}
+
+/* ---------- Pages ---------- */
+let presetSize=null;
+const state={filters:{},sort:'pop',size:null,qty:1,pack:'unit',tab:0};
+function home(){
+  const best=P.filter(p=>p.best);
+  const a=byId('coton-atelier-380');
+  return`<section class="hero" style="padding:0"><div class="wrap">
+    <div><span class="m" style="color:var(--ocre-fonce)">Toiles & châssis pour artistes — Maroc</span>
+    <h1 class="d" style="margin-top:14px">Le stock<span class="s">des artistes.</span></h1>
+    <p class="lead">Toiles coton et lin en direct de l'importateur. À l'unité, au carton ou au rouleau, jusqu'à 150 × 200 cm. Plus vous commandez, moins vous payez.</p>
+    <div class="ctas"><a class="btn" href="#toiles">Voir le stock</a><a class="btn ghost" href="#formats">Tarifs par format</a></div>
+    <div class="proof"><div><b>16</b><span>formats en stock</span></div><div><b>−12 %</b><span>au carton fermé</span></div><div><b>48 H</b><span>livré au Maroc</span></div></div></div>
+    <div class="hero-art">
+      <svg class="roof" viewBox="0 0 100 32" preserveAspectRatio="none" style="height:120px;width:100%"><path d="M2 30 L50 3 L98 30" fill="none" stroke="#C4502A" stroke-width="5" vector-effect="non-scaling-stroke" style="stroke-width:30px"/></svg>
+      <div class="stack"><div><b>150 × 200</b><span>COTON 380 G · EN STOCK</span></div><div><b>CARTON × 10</b><span>${fmt(r5(15+2000*0.022)*10*0.82)} · 40 × 50</span></div><div><b>LIN 400 G</b><span>AU MÈTRE · 210 CM</span></div></div>
+    </div></div></section>
+  <section style="padding-bottom:0"><div class="wrap"><div class="bands">
+    <div><b>Prix carton</b><span>−12 % dès un carton fermé de 3, 5 ou 10 toiles.</span></div>
+    <div><b>Grands formats</b><span>Jusqu'à 150 × 200 cm en stock, sur mesure sur devis.</span></div>
+    <div><b>Livré partout</b><span>Casablanca 24–48 h, Maroc 2–4 jours. Offert dès 1 000 DH.</span></div>
+    <div><b>Payé à la livraison</b><span>Ou virement, carte bancaire, facture pro (ICE).</span></div>
+  </div></div></section>
+  <section><div class="wrap"><div class="sec-h"><h2 class="d">Le stock</h2><a href="#toiles">Tout voir →</a></div><div class="tiles">
+    ${[['grands','Grands formats','100 × 100 à 150 × 200 cm',canvasSVG(100,150,{art:1})],['coton','Toiles coton','380 g, châssis 18 ou 38 mm',canvasSVG(40,50,{art:1})],['lin','Toiles lin','Grain fin, apprêt universel ou transparent',canvasSVG(40,50,{linen:1})],
+       ['cartons','Cartons & lots','Le prix le plus bas par toile',stackSVG(7)],['rouleaux','Toile en rouleau','Coton, lin, jute · 210 cm',rollSVG({})],['chassis','Châssis nus','À entoiler vous-même',stretcherSVG(40,50)]]
+     .map(t=>{const n=t[0]==='grands'?P.filter(p=>p.v.some(v=>isBig(v.size))).length:P.filter(p=>p.sub===t[0]).length;return`<a class="tile" href="#toiles-${t[0]}"><div class="ic">${t[3]}</div><div><h3 class="d">${t[1]}</h3><p>${t[2]}</p><div class="n">${n} produit${n>1?'s':''} →</div></div></a>`}).join('')}
+  </div></div></section>
+  <section style="padding-top:0"><div class="wrap"><div class="sec-h"><h2 class="d">Les plus commandés</h2><a href="#toiles">Tout le stock →</a></div><div class="grid">${best.map(card).join('')}</div></div></section>
+  <section style="padding-top:0"><div class="wrap">${calcBlock()}</div></section>
+  <section style="padding-top:0"><div class="wrap">${proBlock()}</div></section>`;
+}
+function calcBlock(){
+  const a=byId('coton-atelier-380');
+  const rows=['30x40','40x50','50x70','100x100','100x150'].map(s=>{const v=a.v.find(x=>x.size===s),c=cartonOf(s);return`<tr><td><b>${s.replace('x',' × ')}</b></td><td class="num">${fmt(v.price)}</td><td class="num" style="color:var(--stock)">${fmt(v.price*(1-PACK_DISC.carton))}</td><td>${c}</td></tr>`}).join('');
+  return`<div class="calc"><div class="l"><h2 class="d">Unité ou carton ?<span class="s">faites le calcul.</span></h2><p>Le même coton Atelier 380 g, au même endroit, au même moment. En carton fermé, chaque toile coûte 12 % de moins. Les cartons de 10 vont encore plus loin.</p><a class="btn" href="#formats">Tous les tarifs</a></div>
+  <div class="r"><table class="ptable" style="width:100%;border-collapse:collapse"><tr><th>Format (cm)</th><th>À l'unité</th><th>En carton</th><th>Par carton</th></tr>${rows}</table><p class="note">Prix TTC par toile, coton Atelier 380 g. Prix indicatifs.</p></div></div>`;
+}
+function proBlock(){return`<div class="pro" id="devisblock"><div><span class="m" style="color:var(--ocre-fonce)">Artistes pros · Académies · Ateliers · Décorateurs</span><h2 class="d" style="margin-top:10px">Grand volume ?<br><span class="s" style="font-size:40px">parlons-en.</span></h2>
+  <p>Au-delà de 50 toiles, pour une rentrée scolaire, une exposition ou une production de décor, nous préparons un devis sous 24 h.</p>
+  <ul><li>Tarif palette dès 50 toiles</li><li>Formats sur mesure jusqu'à 200 × 300 cm</li><li>Facture établissement (ICE), paiement par virement</li><li>Livraison groupée ou enlèvement à l'entrepôt</li></ul>
+  <a class="btn wa" href="https://wa.me/212664320449?text=${encodeURIComponent('Bonjour Entrepôt des Arts, je souhaite un devis pour :')}" target="_blank" rel="noopener">Devis sur WhatsApp</a></div>
+  <form class="panel form" onsubmit="event.preventDefault();toast('Demande reçue. Réponse sous 24 h (démo).');this.reset()">
+    <div class="full"><h3 class="d" style="font-size:30px">Demande de devis</h3></div>
+    <div><label>Nom *</label><input required></div><div><label>Téléphone *</label><input required type="tel"></div>
+    <div class="full"><label>Établissement / atelier</label><input></div>
+    <div><label>Quantité estimée</label><select><option>50 – 100 toiles</option><option>100 – 300 toiles</option><option>300 +</option><option>Rouleaux</option></select></div><div><label>Ville</label><input></div>
+    <div class="full"><label>Formats et matière</label><textarea placeholder="Ex. 40 × 100x150 coton 380 g, 20 × 60x80 lin"></textarea></div>
+    <div class="full"><button class="btn full">Envoyer la demande</button></div></form></div>`}
+
+function listing(sub){
+  let items=sub==='grands'?P.filter(p=>p.v.some(v=>isBig(v.size))):P.filter(p=>!sub||p.sub===sub);
+  const f=state.filters;
+  const ok=p=>Object.entries(f).every(([k,vals])=>!vals.length||(k==='size'?p.v.some(v=>vals.includes(v.size)):vals.includes(p.attrs[k])));
+  const filtered=items.filter(ok);const sorted=[...filtered];
+  if(state.sort==='asc')sorted.sort((a,b)=>minPrice(a)-minPrice(b));
+  if(state.sort==='desc')sorted.sort((a,b)=>minPrice(b)-minPrice(a));
+  const sizes=[...new Set(items.flatMap(p=>p.v.map(v=>v.size)).filter(s=>/^\d+x\d+$/.test(s)))].sort((a,b)=>area(a)-area(b));
+  const facet=(key,label,vals)=>{const vs=[...new Set(vals)].filter(x=>x&&x!=='—');if(vs.length<2)return'';
+    const all=state['more_'+key],list=key==='size'&&!all?vs.slice(0,9):vs;
+    return`<div class="fgroup"><h4>${label}</h4>${list.map(v=>{const n=items.filter(p=>key==='size'?p.v.some(x=>x.size===v):p.attrs[key]===v).length;
+      return`<label><input type="checkbox" ${f[key]&&f[key].includes(v)?'checked':''} onchange="toggleF('${key}','${esc(v)}')">${key==='size'?esc(v.replace('x',' × ')):esc(v)}<span class="c">${n}</span></label>`}).join('')}
+      ${key==='size'&&vs.length>9?`<button class="more" onclick="state.more_size=!state.more_size;route(true)">${all?'Moins':'Tous les formats'}</button>`:''}</div>`};
+  const active=Object.entries(f).flatMap(([k,vs])=>vs.map(v=>`<button onclick="toggleF('${k}','${esc(v)}')">${esc(v)} ×</button>`)).join('');
+  const title=sub==='grands'?'Grands formats':sub?SUBS[sub]:'Toutes les toiles';
+  const intro=sub==='grands'?'De 100 × 100 à 150 × 200 cm, en stock à Casablanca. Châssis avec traverse, livrés emballés coin par coin. Plus grand ? Sur mesure, sur devis.':'Coton et lin sur châssis, cartons entoilés, toile au rouleau et châssis nus. Prix à l\'unité et prix carton affichés côte à côte.';
+  return`<div class="lhead"><div class="wrap"><div class="crumb"><a href="#accueil">Accueil</a><span>/</span>${sub?`<a href="#toiles">Toiles</a><span>/</span>${title}`:'Toiles'}</div>
+    <h1 class="d">${title}</h1><p>${intro}</p>
+    <div class="subchips"><a class="chip ${!sub?'on':''}" href="#toiles">Tout (${P.length})</a><a class="chip ${sub==='grands'?'on':''}" href="#toiles-grands">Grands formats</a>${Object.entries(SUBS).map(([s,t])=>`<a class="chip ${sub===s?'on':''}" href="#toiles-${s}">${t}</a>`).join('')}</div></div></div>
+  <div class="wrap listing">
+    <aside class="filters"><div style="display:flex;justify-content:space-between;align-items:center"><h3 class="d" style="font-size:28px">Filtrer</h3><button class="mfilter" onclick="closeAll()" style="font-size:28px">×</button></div>
+      ${facet('size','Format (cm)',sizes)}${FACETS.map(([k,l])=>facet(k,l,items.map(p=>p.attrs[k]))).join('')}
+      <button class="btn full mfilter" style="margin-top:16px" onclick="closeAll()">Voir ${filtered.length} produits</button></aside>
+    <div><div class="toolbar"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn ghost mfilter" style="height:42px" onclick="$('.filters').classList.add('open')">Filtres</button><b>${filtered.length} produit${filtered.length>1?'s':''}</b><div class="active-f">${active}</div></div>
+      <select onchange="state.sort=this.value;route(true)"><option value="pop" ${state.sort==='pop'?'selected':''}>Les plus commandés</option><option value="asc" ${state.sort==='asc'?'selected':''}>Prix croissant</option><option value="desc" ${state.sort==='desc'?'selected':''}>Prix décroissant</option></select></div>
+      ${sorted.length?`<div class="grid g3">${sorted.map(card).join('')}</div>`:`<div class="empty">Aucun produit pour ces filtres.<br><br><button class="btn ghost" onclick="state.filters={};route(true)">Effacer les filtres</button></div>`}</div></div>`;
+}
+function toggleF(k,v){const a=state.filters[k]||(state.filters[k]=[]);const i=a.indexOf(v);i>-1?a.splice(i,1):a.push(v);route(true)}
+
+function pdp(id){
+  const p=byId(id);if(!p)return notFound();
+  if(!state.size||!p.v.some(v=>v.size===state.size))state.size=(p.v.find(v=>v.size==='40x50')||p.v[0]).size;
+  const size=state.size,v=p.v.find(x=>x.size===size),q=state.qty||1;
+  const pack=hasCarton(p)?state.pack:'unit',cN=cartonOf(size);
+  const u=unitPrice(p,v,pack),pcs=pack==='carton'?cN*q:q,total=u*pcs;
+  const [w,h]=WH(size);
+  const packBox=hasCarton(p)?`<div class="opt"><h4>Conditionnement</h4><div class="packs">
+    <button class="pack ${pack==='unit'?'on':''}" onclick="state.pack='unit';route(true)"><div class="t">À l'unité</div><div class="u">${fmt(v.price)} / toile</div></button>
+    <button class="pack ${pack==='carton'?'on':''}" onclick="state.pack='carton';route(true)"><span class="sv">−12 %</span><div class="t">Carton de ${cN}</div><div class="u">${fmt(v.price*(1-PACK_DISC.carton))} / toile</div></button>
+    <a class="pack" href="#devis"><div class="t">Palette</div><div class="u">Dès 50 toiles · sur devis</div></a></div></div>`:'';
+  const unitLbl=p.kind==='roll'?(size.includes('mètre')?'le mètre':'le rouleau'):p.fixedPack?'le carton':'la toile';
+  const related=P.filter(x=>x.id!==p.id&&(x.sub===p.sub||x.attrs.matiere===p.attrs.matiere)).slice(0,4);
+  return`<div class="wrap"><div class="crumb"><a href="#accueil">Accueil</a><span>/</span><a href="#toiles">Toiles</a><span>/</span><a href="#toiles-${p.sub}">${SUBS[p.sub]}</a><span>/</span>${esc(p.name)}</div>
+  <div class="pdp"><div><div class="gallery" style="position:relative">${img(p,size)}<span class="dim">${esc(size.replace('x',' × '))}</span></div></div>
+  <div class="pinfo"><span class="ref">RÉF. ${p.ref}-${String(p.v.indexOf(v)+1).padStart(2,'0')}</span><h1 class="d">${esc(p.name)}</h1>
+   <p class="lead">${esc(p.short)}</p>
+   <div class="opt"><h4>${p.kind==='roll'||p.fixedPack?'Variante':'Format'} <span>· ${esc(size)}${/^\d+x\d+$/.test(size)?' cm':''}</span></h4>
+    <div class="sizes">${p.v.map(x=>`<button class="${x.size===size?'on':''} ${isBig(x.size)?'big':''} ${x.stock===0?'oos':''}" onclick="state.size='${esc(x.size)}';route(true)">${esc(x.size.replace(/^(\d+)x(\d+)$/,'$1 × $2'))}</button>`).join('')}</div>
+    ${p.v.some(x=>isBig(x.size))?'<p class="note">Bordure double = grand format, châssis avec traverse.</p>':''}</div>
+   ${packBox}
+   <div class="buybox"><div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap"><div><div class="bp">${v.old&&p.fixedPack?`<s style="font-size:22px;color:var(--beton);font-weight:700">${fmt(v.old)}</s> `:''}${fmt(u)} <small>TTC ${unitLbl}</small></div>
+     ${p.fixedPack?`<div class="per">soit <b>${fmt(v.price/p.fixedPack)}</b> par toile</div>`:pack==='carton'?`<div class="per" style="color:var(--stock);font-weight:600">Carton de ${cN} : ${fmt(u*cN)} · économie ${fmt((v.price-u)*cN)}</div>`:hasCarton(p)?`<div class="per">En carton de ${cN} : <b>${fmt(v.price*(1-PACK_DISC.carton))}</b> / toile</div>`:''}</div>${stockHTML(v)}</div>
+    <div class="qtyrow"><div class="qty"><button onclick="state.qty=Math.max(1,(state.qty||1)-1);route(true)">−</button><input value="${q}" onchange="state.qty=Math.max(1,parseInt(this.value)||1);route(true)" aria-label="Quantité"><button onclick="state.qty=(state.qty||1)+1;route(true)">+</button></div>
+     <button class="btn" style="flex:1" onclick="add('${p.id}','${esc(size)}','${pack}',${q})">Ajouter · ${fmt(total)}</button></div>
+    <p class="note" style="margin-top:0">${pack==='carton'?`${q} carton${q>1?'s':''} = ${pcs} toiles`:p.fixedPack?`${q} carton${q>1?'s':''} = ${q*p.fixedPack} toiles`:''}</p>
+    <div class="delivery"><div>■ Casablanca 24–48 h · Maroc 2–4 jours · offert dès 1 000 DH</div><div>■ Enlèvement gratuit à l'entrepôt, Casablanca</div><div>■ Paiement à la livraison, virement ou carte</div></div></div>
+   <div class="devis"><div><b>Plus de 50 toiles ?</b><span>Tarif palette et formats sur mesure, devis sous 24 h.</span></div><a class="btn" href="#devis">Demander un devis</a></div>
+  </div></div>
+  <div class="tabs"><div class="tabbar">${['Description','Caractéristiques','Livraison'].map((x,i)=>`<button class="${state.tab===i?'on':''}" onclick="state.tab=${i};route(true)">${x}</button>`).join('')}</div>
+   <div class="tabc">${state.tab===0?p.desc.map(d=>`<p>${esc(d)}</p>`).join(''):state.tab===1?`<table class="specs">${Object.entries({...p.specs,'Format':size,'Référence':p.ref}).map(([k,x])=>`<tr><td>${esc(k)}</td><td>${esc(x)}</td></tr>`).join('')}</table>`:
+   `<ul><li>Casablanca : 24–48 h, 30 DH</li><li>Autres villes : 2–4 jours ouvrés, 50 DH</li><li>Offert dès 1 000 DH</li><li>Grands formats : emballage coin par coin, livraison par transporteur</li><li>Enlèvement gratuit à l'entrepôt</li><li>Retour sous 14 jours si la toile n'a pas été utilisée</li></ul>`}</div></div>
+  ${related.length?`<section><div class="sec-h"><h2 class="d">Dans le même rayon</h2></div><div class="grid">${related.map(card).join('')}</div></section>`:''}</div>`;
+}
+
+function formatsPage(){
+  const a=byId('coton-atelier-380'),l=byId('lin-pro'),d=byId('coton-profond-3d');
+  const rows=STD.map(s=>{const va=a.v.find(x=>x.size===s),vl=l.v.find(x=>x.size===s),vd=d.v.find(x=>x.size===s);const c=cartonOf(s);
+    const cell=(p,v)=>v?`${fmt(v.price)}<br><span style="color:var(--stock);font-size:14px">${fmt(v.price*(1-PACK_DISC.carton))} carton</span>`:'—';
+    return`<tr><td><b class="d" style="font-size:22px">${s.replace('x',' × ')}</b></td><td>${cell(a,va)}</td><td>${cell(d,vd)}</td><td>${cell(l,vl)}</td><td>${c}</td><td><button class="btn" style="height:36px;padding:0 12px;font-size:13px" onclick="add('coton-atelier-380','${s}','carton',1,0)">+ Carton coton</button></td></tr>`}).join('');
+  return`<div class="wrap" style="padding-bottom:70px"><div class="crumb"><a href="#accueil">Accueil</a><span>/</span>Tarifs par format</div>
+  <h1 class="d" style="font-size:72px">Tarifs par format</h1><p style="max-width:720px;margin:10px 0 26px">Tous nos prix sur une page, à l'unité et au carton fermé. Prix TTC par toile.</p>
+  <div class="panel" style="overflow:auto;padding:0"><table class="ptable" style="width:100%;border-collapse:collapse;min-width:760px"><tr><th>Format (cm)</th><th>Coton Atelier 18 mm</th><th>Coton Profond 38 mm</th><th>Lin Pro</th><th>Toiles / carton</th><th></th></tr>${rows}</table></div>
+  <p class="note">Prix indicatifs pour la démo.</p></div>`;
+}
+
+function cartPage(){
+  if(!cart.length)return`<div class="wrap" style="padding:40px 24px 80px"><h1 class="d" style="font-size:64px;margin-bottom:20px">Commande</h1><div class="empty">Votre commande est vide.<br><br><a class="btn" href="#toiles">Voir le stock</a></div></div>`;
+  return`<div class="wrap"><div class="crumb"><a href="#accueil">Accueil</a><span>/</span>Commande</div><h1 class="d" style="font-size:64px;margin-bottom:20px">Votre commande</h1>
+  <div class="cartpage"><div class="panel">${cart.map(lineHTML).join('')}</div><div>${summary(false)}</div></div></div>`;
+}
+let co={step:1,ship:'casa',pay:'cod',data:{}};
+function shipCost(){if(co.ship==='store')return 0;if(subtotal()>=FREE)return 0;return co.ship==='casa'?30:50}
+function summary(chk){
+  const sv=savings();
+  return`<div class="panel">${chk?`<h3 class="d" style="font-size:28px;margin-bottom:12px">Récapitulatif</h3>${cart.map(l=>{const p=byId(l.id);return`<div class="tot" style="font-size:13px"><span>${piecesOf(l)} × ${esc(p.name)} <span style="color:var(--beton)">${esc(l.size)}</span></span><span>${fmt(lineTotal(l))}</span></div>`}).join('')}<div style="height:10px"></div>`:''}
+  ${shipBar()}
+  <div class="tot"><span>Sous-total · ${pieces()} toiles</span><span>${fmt(subtotal()+sv)}</span></div>
+  ${sv?`<div class="tot" style="color:var(--stock);font-weight:700"><span>Économie carton</span><span>−${fmt(sv)}</span></div>`:''}
+  <div class="tot"><span>Livraison</span><span>${chk?(shipCost()?fmt(shipCost()):'Offerte'):(subtotal()>=FREE?'Offerte':'dès 30 DH')}</span></div>
+  <div class="tot big"><span>Total TTC</span><span>${fmt(subtotal()+(chk?shipCost():0))}</span></div>
+  ${chk?'':`<a class="btn full" style="margin-top:16px" href="#commande">Passer la commande</a><a class="btn wa full" style="margin-top:8px" href="${waOrder()}" target="_blank" rel="noopener">Commander sur WhatsApp</a><p class="note">Paiement à la livraison, virement ou carte bancaire.</p>`}</div>`;
+}
+function waOrder(){return'https://wa.me/212664320449?text='+encodeURIComponent('Bonjour Entrepôt des Arts, je souhaite commander :\n'+cart.map(l=>`- ${piecesOf(l)} x ${byId(l.id).name} (${l.size}${packLabel(l)})`).join('\n')+`\nTotal estimé : ${fmt(subtotal())}`)}
+function checkout(){
+  if(co.step===4)return`<div class="wrap success"><div class="ok">${MARK}</div><h1 class="d" style="font-size:60px;margin-bottom:10px">Commande reçue.</h1><p>Commande <b>${co.no}</b>. Nous vous appelons sous 24 h pour confirmer la livraison.</p><p class="note">Démo : aucune commande n'a été envoyée.</p><a class="btn" style="margin-top:20px" href="#accueil" onclick="co={step:1,ship:'casa',pay:'cod',data:{}}">Retour à l'accueil</a></div>`;
+  if(!cart.length)return cartPage();
+  const d=co.data,st=co.step;
+  const stepsH=`<div class="steps">${['1 · Coordonnées','2 · Livraison','3 · Paiement'].map((x,i)=>`<div class="${st===i+1?'on':st>i+1?'done':''}">${st>i+1?'✓ ':''}${x}</div>`).join('')}</div>`;
+  let body='';
+  if(st===1)body=`<form class="form" onsubmit="event.preventDefault();co.data=Object.fromEntries(new FormData(this));co.step=2;route(true)">
+    <div><label>Prénom *</label><input name="fn" required value="${esc(d.fn||'')}"></div><div><label>Nom *</label><input name="ln" required value="${esc(d.ln||'')}"></div>
+    <div><label>Téléphone *</label><input name="tel" required type="tel" placeholder="06 XX XX XX XX" value="${esc(d.tel||'')}"></div><div><label>E-mail</label><input name="mail" type="email" value="${esc(d.mail||'')}"></div>
+    <div class="full"><label>Adresse *</label><input name="addr" required value="${esc(d.addr||'')}"></div>
+    <div><label>Ville *</label><select name="city">${['Casablanca','Rabat','Marrakech','Tanger','Fès','Agadir','Mohammedia','Kénitra','Tétouan','Autre'].map(c=>`<option ${d.city===c?'selected':''}>${c}</option>`).join('')}</select></div>
+    <div><label>ICE (facture pro)</label><input name="ice" value="${esc(d.ice||'')}"></div>
+    <div class="full"><button class="btn">Continuer</button></div></form>`;
+  if(st===2){const casa=(d.city||'Casablanca')==='Casablanca';if(!casa&&co.ship==='casa')co.ship='maroc';if(casa&&co.ship==='maroc')co.ship='casa';const free=subtotal()>=FREE;
+    body=[[casa?'casa':'maroc',casa?'Livraison Casablanca':'Livraison '+esc(d.city),casa?'24–48 h':'2–4 jours ouvrés',free?0:(casa?30:50)],['store','Enlèvement à l\'entrepôt','Casablanca · prêt sous 24 h',0]]
+    .map(o=>`<label class="radio ${co.ship===o[0]?'on':''}"><input type="radio" name="ship" ${co.ship===o[0]?'checked':''} onchange="co.ship='${o[0]}';route(true)"><div class="t">${o[1]}<span>${o[2]}</span></div><div class="p">${o[3]?fmt(o[3]):'Offert'}</div></label>`).join('')+
+    `<div style="display:flex;gap:10px;margin-top:10px"><button class="btn ghost" onclick="co.step=1;route(true)">Retour</button><button class="btn" style="flex:1" onclick="co.step=3;route(true)">Continuer</button></div>`}
+  if(st===3)body=[['cod','Paiement à la livraison','Espèces ou carte à la réception'],['vir','Virement bancaire','RIB envoyé par WhatsApp, expédition à réception'],['cb','Carte bancaire','Paiement sécurisé en ligne']]
+    .map(o=>`<label class="radio ${co.pay===o[0]?'on':''}"><input type="radio" name="pay" ${co.pay===o[0]?'checked':''} onchange="co.pay='${o[0]}';route(true)"><div class="t">${o[1]}<span>${o[2]}</span></div></label>`).join('')+
+    `<label style="display:flex;gap:10px;font-size:14px;margin:12px 0"><input type="checkbox" id="cgv" style="accent-color:var(--charbon)"> J'accepte les conditions générales de vente</label>
+    <div style="display:flex;gap:10px"><button class="btn ghost" onclick="co.step=2;route(true)">Retour</button><button class="btn" style="flex:1" onclick="placeOrder()">Valider · ${fmt(subtotal()+shipCost())}</button></div>`;
+  return`<div class="wrap"><div class="crumb"><a href="#accueil">Accueil</a><span>/</span><a href="#panier">Commande</a><span>/</span>Validation</div><h1 class="d" style="font-size:64px">Validation</h1>${stepsH}
+  <div class="cartpage"><div class="panel">${body}</div><div>${summary(true)}</div></div></div>`;
+}
+function placeOrder(){if(!$('#cgv').checked){toast('Merci d\'accepter les conditions générales.');return}
+  co.no='EDA-'+Math.floor(100000+Math.random()*899999);co.step=4;cart=[];saveCart();route(true)}
+function simple(t,html){return`<div class="wrap" style="padding-bottom:70px"><div class="crumb"><a href="#accueil">Accueil</a><span>/</span>${t}</div>${html}</div>`}
+function notFound(){return simple('Introuvable','<div class="empty">Cette page n\'existe pas. <a href="#accueil" style="color:var(--ocre-fonce);font-weight:700">Retour à l\'accueil</a></div>')}
+
+/* ---------- Router ---------- */
+let last='';
+function route(keep){
+  const h=(location.hash||'#accueil').slice(1);
+  if(h!==last){state.size=null;state.qty=1;state.pack='unit';state.tab=0;if(last.split('-')[0]!==h.split('-')[0]||h.startsWith('toiles'))state.filters={};if(h!=='commande'&&co.step<4)co.step=Math.min(co.step,3)}
+  if(presetSize&&h.startsWith('toiles')){state.filters={size:[presetSize]};presetSize=null}
+  if(presetSize&&h.startsWith('produit-')){state.size=presetSize;presetSize=null}
+  let html;
+  if(h==='accueil')html=home();
+  else if(h==='toiles')html=listing(null);
+  else if(h.startsWith('toiles-')){const s=h.slice(7);html=(SUBS[s]||s==='grands')?listing(s):notFound()}
+  else if(h.startsWith('produit-'))html=pdp(h.slice(8));
+  else if(h==='panier')html=cartPage();
+  else if(h==='commande')html=checkout();
+  else if(h==='formats')html=formatsPage();
+  else if(h==='devis'||h==='contact')html=simple('Pros & écoles',`<section style="padding-top:10px">${proBlock()}</section>`);
+  else if(h==='bientot')html=simple('Cadres',`<h1 class="d" style="font-size:72px">Cadres <span class="s" style="color:var(--ocre-fonce)">bientôt en stock.</span></h1><p style="max-width:640px;margin:16px 0 24px">Caisses américaines et cadres aux formats de nos toiles arrivent à l'entrepôt. Laissez votre e-mail en bas de page pour être prévenu en premier.</p><a class="btn" href="#toiles">Voir les toiles</a>`);
+  else if(h==='livraison')html=simple('Livraison & paiement',`<h1 class="d" style="font-size:64px;margin-bottom:18px">Livraison & paiement</h1><div class="panel tabc" style="max-width:none"><ul><li>Casablanca : 24–48 h, 30 DH</li><li>Autres villes : 2–4 jours ouvrés, 50 DH</li><li><b>Offert dès 1 000 DH</b></li><li>Enlèvement gratuit à l'entrepôt</li><li>Paiement à la livraison, virement ou carte bancaire</li><li>Facture professionnelle avec ICE</li><li>Retour sous 14 jours si la toile n'a pas été utilisée</li></ul></div>`);
+  else html=notFound();
+  $('#app').innerHTML=html;
+  document.querySelectorAll('.navi>a').forEach(a=>{const k=a.dataset.k;a.classList.toggle('on',k===h||(k==='toiles'&&(h==='toiles'||(h.startsWith('toiles-')&&!['toiles-grands','toiles-cartons'].includes(h))||h.startsWith('produit-'))))});
+  if(h!==last&&!keep)window.scrollTo(0,0);
+  last=h;
+}
+window.addEventListener('hashchange',()=>route());
+
+/* ---------- Search ---------- */
+$('#q').addEventListener('input',e=>{
+  const q=e.target.value.trim().toLowerCase(),box=$('#sres');
+  if(q.length<2){box.style.display='none';return}
+  const terms=q.replace(/\s*[×x]\s*/g,'x').split(/\s+/);
+  const res=P.filter(p=>{const hay=(p.name+' '+p.short+' '+Object.values(p.attrs).join(' ')+' '+p.v.map(v=>v.size).join(' ')+' '+SUBS[p.sub]).toLowerCase();return terms.every(t=>hay.includes(t))}).slice(0,8);
+  const sz=(q.replace(/\s*[×x]\s*/g,'x').match(/\d+x\d+/)||[])[0];
+  box.innerHTML=res.length?res.map(p=>`<a href="#produit-${p.id}" onclick="$('#sres').style.display='none';$('#q').value='';${sz?`presetSize='${sz}'`:''}"><div class="th">${img(p,sz&&p.v.some(v=>v.size===sz)?sz:null)}</div><div><b style="font-size:14px">${esc(p.name)}</b><div style="font-size:12px;color:var(--beton)">dès ${fmt(minPrice(p))}</div></div></a>`).join(''):'<div style="padding:16px;color:var(--beton)">Aucun résultat</div>';
+  box.style.display='block';
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.search'))$('#sres').style.display='none'});
+
+renderBadge();route();
+</script>
+</body>
+</html>
