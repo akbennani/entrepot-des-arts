@@ -32,6 +32,37 @@ input,select,textarea{font:inherit}
 .usp .wrap{display:flex;gap:22px;justify-content:center;padding-top:9px;padding-bottom:9px;flex-wrap:wrap}
 .usp span{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
 .usp span::before{content:"■ ";color:var(--ocre)}
+.usp .wrap{position:relative}
+.lang{position:absolute;right:24px;top:50%;transform:translateY(-50%);display:flex;gap:2px}
+.lang button{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:#bfb7a8;padding:2px 6px;border:1px solid transparent}
+.lang button.on{color:var(--lin);border-color:#6b675f}
+.lang button[lang=ar]{font-family:"IBM Plex Sans Arabic",sans-serif;letter-spacing:0;font-size:12px}
+.mlang{display:flex;gap:8px;margin-top:22px}.mlang button{flex:1;border:2px solid var(--charbon);height:42px;font-weight:700}.mlang button.on{background:var(--charbon);color:var(--lin)}
+/* arabe / rtl */
+[dir=rtl]{--display:"Big Shoulders Display","Noto Kufi Arabic",sans-serif;--serif:"Noto Kufi Arabic",serif;--sans:"IBM Plex Sans Arabic","Inter",sans-serif;--mono:"IBM Plex Mono","IBM Plex Sans Arabic",monospace}
+[dir=rtl] body,[dir=rtl] .d,[dir=rtl] .m,[dir=rtl] .usp span,[dir=rtl] .steps div,[dir=rtl] footer h4,[dir=rtl] .form label,[dir=rtl] .mnav h4{letter-spacing:0}
+[dir=rtl] .d{line-height:1.25}[dir=rtl] .s{font-style:normal;font-weight:700}
+[dir=rtl] .lang{right:auto;left:24px}
+[dir=rtl] .hicons{margin-left:0;margin-right:auto}
+[dir=rtl] .badge{left:auto;right:24px}
+[dir=rtl] .navi>a .soon{margin-left:0;margin-right:6px}
+[dir=rtl] .mega{left:auto;right:0}
+[dir=rtl] .proof div{border-left:0;padding-left:0;border-right:2px solid var(--charbon);padding-right:12px}
+[dir=rtl] .tiles{border-left:0;border-right:2px solid var(--charbon)}[dir=rtl] .tile{border-right:0;border-left:2px solid var(--charbon)}
+[dir=rtl] .tag{left:auto;right:12px}
+[dir=rtl] .fgroup label .c{margin-left:0;margin-right:auto}
+[dir=rtl] .gallery .dim{right:auto;left:0}
+[dir=rtl] .pack{text-align:right}[dir=rtl] .pack .sv{right:auto;left:8px}
+[dir=rtl] .tabc ul{padding-left:0;padding-right:18px}
+[dir=rtl] .ptable td,[dir=rtl] .ptable th{text-align:right}
+[dir=rtl] .search svg{left:auto;right:15px}[dir=rtl] .search input{padding:0 44px 0 16px}
+[dir=rtl] .drawer{right:auto;left:0;border-left:0;border-right:2px solid var(--charbon);transform:translateX(-100%)}[dir=rtl] .drawer.open{transform:none}
+[dir=rtl] .wafab{right:auto;left:20px}
+[dir=rtl] .qadd svg,[dir=rtl] .flip{transform:scaleX(-1)}
+[dir=rtl] .bands div{border-right:0;border-left:2px solid var(--charbon)}[dir=rtl] .bands div:last-child{border-left:0}
+[dir=rtl] .steps div{border-right:0;border-left:2px solid var(--charbon)}[dir=rtl] .steps div:last-child{border-left:0}
+[dir=rtl] .pro li::before{margin-right:0;margin-left:10px}
+[dir=rtl] .num,[dir=rtl] .bp,[dir=rtl] .dim,[dir=rtl] .ref{direction:ltr;unicode-bidi:isolate}
 header.main{background:var(--lin);border-bottom:2px solid var(--charbon);position:sticky;top:0;z-index:30}
 .hrow{display:flex;align-items:center;gap:26px;height:82px}
 .logo{display:block;width:210px;flex:none}
@@ -284,7 +315,8 @@ footer .bottom{border-top:1px solid #3a3731;margin-top:36px;padding-top:18px;dis
   footer .cols{grid-template-columns:1fr 1fr}
 }
 @media (max-width:760px){
-  .usp span:nth-child(n+2){display:none}
+  .usp span:nth-child(n+3){display:none}
+  .usp .wrap{justify-content:flex-start}.lang{right:10px}[dir=rtl] .lang{left:10px;right:auto}
   .toolbar select{width:100%}
   .subchips{flex-wrap:nowrap;overflow-x:auto;margin-right:-16px;padding-right:16px;padding-bottom:4px}
   .chip{white-space:nowrap}
@@ -293,7 +325,9 @@ footer .bottom{border-top:1px solid #3a3731;margin-top:36px;padding-top:18px;dis
   .hero h1{font-size:64px}.hero h1 .s{font-size:38px}
   .hero-art{height:300px}.stack{top:110px;left:0;right:0}.stack div{height:52px;padding:0 14px}.stack b{font-size:24px}.stack span{font-size:10px}
   .proof{gap:18px}.proof b{font-size:28px}
-  .wafab{width:50px;height:50px;right:14px;bottom:14px}
+  .wafab{width:50px;height:50px;right:14px;bottom:14px}[dir=rtl] .wafab{right:auto;left:14px}
+  [dir=rtl] .mnav{transform:translateX(100%)}[dir=rtl] .mnav.open{transform:none}
+  [dir=rtl] .bands div{border-left:0}
   .hrow{height:66px;gap:8px}
   .logo{width:150px}
   .search{position:absolute;left:16px;right:16px;top:66px;max-width:none;display:none}
@@ -310,6 +344,8 @@ footer .bottom{border-top:1px solid #3a3731;margin-top:36px;padding-top:18px;dis
   .card .img{padding:14px}.card .body{padding:10px 12px 12px}.card h3{font-size:19px}.pr b{font-size:24px}
   .tiles,.bands{grid-template-columns:1fr}.bands div{border-right:0;border-bottom:2px solid var(--charbon)}.bands div:last-child{border-bottom:0}
   .form{grid-template-columns:1fr}
+  footer .cols{grid-template-columns:1fr 1fr}footer .cols>div{min-width:0}footer .cols>div:first-child,footer .cols>div:last-child{grid-column:1/-1}
+  .tabbar{overflow-x:auto;flex-wrap:nowrap}.tabbar button{white-space:nowrap;flex:none}
   .lhead h1,.pinfo h1{font-size:44px}
   .gallery{padding:30px}
   .packs{grid-template-columns:1fr}
@@ -326,6 +362,7 @@ footer .bottom{border-top:1px solid #3a3731;margin-top:36px;padding-top:18px;dis
 <body>
 
 <div class="usp"><div class="wrap">
+  <div class="lang" data-notr><button onclick="setLang('fr')" data-l="fr">FR</button><button onclick="setLang('en')" data-l="en">EN</button><button onclick="setLang('ar')" data-l="ar" lang="ar">عربي</button></div>
   <span>Prix carton dès 5 toiles</span>
   <span>Jusqu'à 150 × 200 cm en stock</span>
   <span>Livraison offerte dès 1 000 DH</span>
@@ -372,7 +409,7 @@ footer .bottom{border-top:1px solid #3a3731;margin-top:36px;padding-top:18px;dis
       <div><h4>Service</h4><a href="#devis">Devis grand volume</a><a href="#livraison">Livraison & paiement</a><a href="#livraison">Retours</a><a href="#contact">Contact</a></div>
       <div><h4>Contact</h4>
         <p>Casablanca, Maroc</p>
-        <p>+212 633 481 636</p>
+        <p><bdi dir="ltr">+212 633 481 636</bdi></p>
         <p>contact@entrepotdesarts.ma</p>
         <p style="font-size:12px;margin-top:6px">Lun–ven 9h00–18h00 · sam 9h00–13h00</p>
         <form class="nl" onsubmit="event.preventDefault();toast('Inscrit. Vous recevrez les arrivages en premier.');this.reset()"><input type="email" required placeholder="Votre e-mail"><button>OK</button></form>
@@ -392,6 +429,413 @@ footer .bottom{border-top:1px solid #3a3731;margin-top:36px;padding-top:18px;dis
 <div class="toast" id="toast"></div>
 
 <script>
+window.I18N_DICT={
+// --- titre, en-tête, pied de page
+"Entrepôt des Arts — Toiles & châssis pour artistes":["Entrepôt des Arts — Canvases & stretchers for artists","Entrepôt des Arts — قماش وإطارات للفنانين"],
+"Prix carton dès 5 toiles":["Carton prices from 5 canvases","سعر الكرتونة ابتداءً من 5 لوحات"],
+"Jusqu'à 150 × 200 cm en stock":["Up to 150 × 200 cm in stock","حتى 150 × 200 سم متوفرة"],
+"Livraison offerte dès 1 000 DH":["Free delivery from 1,000 DH","توصيل مجاني ابتداءً من 1 000 درهم"],
+"Paiement à la livraison":["Cash on delivery","الدفع عند الاستلام"],
+"Menu":["Menu","القائمة"],
+"Entrepôt des Arts — accueil":["Entrepôt des Arts — home","Entrepôt des Arts — الرئيسية"],
+"Rechercher : coton 380 g, lin, 100x150…":["Search: cotton 380 g, linen, 100x150…","ابحث: قطن 380 غ، كتان، 100x150…"],
+"Rechercher":["Search","بحث"],
+"Devis volume":["Volume quote","عرض سعر للكميات"],
+"Panier":["Cart","السلة"],
+"Fermer":["Close","إغلاق"],
+"Le stock des artistes. Toiles et châssis en direct de l'importateur, en carton et en grand format, livrés partout au Maroc.":["The artists' stockroom. Canvases and stretchers direct from the importer, by the carton and in large formats, delivered across Morocco.","مخزن الفنانين. قماش رسم وإطارات مباشرة من المستورد، بالكرتونة وبالمقاسات الكبيرة، مع التوصيل إلى كل أنحاء المغرب."],
+"Le stock":["The stock","المخزون"],
+"Toutes les toiles":["All canvases","كل اللوحات"],
+"Grands formats":["Large formats","المقاسات الكبيرة"],
+"Cartons & lots":["Cartons & bundles","كرتونات ومجموعات"],
+"Toile en rouleau":["Canvas on the roll","قماش باللفة"],
+"Tarifs par format":["Prices by size","الأسعار حسب المقاس"],
+"Service":["Service","الخدمة"],
+"Devis grand volume":["Large-volume quote","عرض سعر للكميات الكبيرة"],
+"Livraison & paiement":["Delivery & payment","التوصيل والدفع"],
+"Retours":["Returns","الإرجاع"],
+"Contact":["Contact","اتصل بنا"],
+"Casablanca, Maroc":["Casablanca, Morocco","الدار البيضاء، المغرب"],
+"Lun–ven 9h00–18h00 · sam 9h00–13h00":["Mon–Fri 9:00–18:00 · Sat 9:00–13:00","الاثنين–الجمعة 9:00–18:00 · السبت 9:00–13:00"],
+"Votre e-mail":["Your e-mail","بريدك الإلكتروني"],
+"OK":["OK","تسجيل"],
+"© 2026 Entrepôt des Arts":["© 2026 Entrepôt des Arts","© 2026 Entrepôt des Arts"],
+"Conditions générales · Confidentialité · Mentions légales":["Terms & conditions · Privacy · Legal notice","الشروط العامة · الخصوصية · البيانات القانونية"],
+"Votre commande":["Your order","طلبك"],
+"WhatsApp":["WhatsApp","واتساب"],
+"Inscrit. Vous recevrez les arrivages en premier.":["Subscribed. You'll hear about new arrivals first.","تم التسجيل. ستصلك أخبار الوصولات الجديدة أولاً."],
+// --- navigation
+"Toiles":["Canvases","اللوحات"],
+"Par matière":["By material","حسب الخامة"],
+"Toiles coton":["Cotton canvases","لوحات قطنية"],
+"Toiles lin":["Linen canvases","لوحات كتان"],
+"Cartons entoilés":["Canvas panels","ألواح كرتون مكسوة"],
+"Rouleaux":["Rolls","اللفات"],
+"Châssis nus":["Bare stretchers","إطارات شدّ عارية"],
+"Tout le stock →":["All stock →","كل المخزون ←"],
+"Formats demandés":["Popular sizes","المقاسات الأكثر طلباً"],
+"Prix carton":["Carton price","سعر الكرتونة"],
+"−12 % dès un carton fermé, sur tous les formats. Encore moins avec nos cartons de 10.":["−12% on any sealed carton, in every size. Even less with our cartons of 10.","‎−12٪ على كل كرتونة مغلقة وبكل المقاسات. وأقل من ذلك مع كرتونات العشر لوحات."],
+"Pros & écoles":["Pros & schools","المحترفون والمدارس"],
+"Cadres":["Frames","الإطارات"],
+"BIENTÔT":["SOON","قريباً"],
+"Acheter malin":["Buy smart","اشترِ بذكاء"],
+// --- accueil
+"Toiles & châssis pour artistes — Maroc":["Canvases & stretchers for artists — Morocco","قماش وإطارات للفنانين — المغرب"],
+"des artistes.":["for artists.","للفنانين."],
+"Toiles coton et lin en direct de l'importateur. À l'unité, au carton ou au rouleau, jusqu'à 150 × 200 cm. Plus vous commandez, moins vous payez.":["Cotton and linen canvases direct from the importer. Single, by the carton or on the roll, up to 150 × 200 cm. The more you order, the less you pay.","لوحات قطن وكتان مباشرة من المستورد. بالوحدة أو بالكرتونة أو باللفة، حتى 150 × 200 سم. كلما طلبت أكثر، دفعت أقل."],
+"Voir le stock":["See the stock","تصفّح المخزون"],
+"formats en stock":["sizes in stock","مقاساً متوفراً"],
+"au carton fermé":["per sealed carton","للكرتونة المغلقة"],
+"livré au Maroc":["delivered in Morocco","توصيل داخل المغرب"],
+"COTON 380 G · EN STOCK":["COTTON 380 G · IN STOCK","قطن 380 غ · متوفر"],
+"CARTON × 10":["CARTON × 10","كرتونة × 10"],
+"LIN 400 G":["LINEN 400 G","كتان 400 غ"],
+"AU MÈTRE · 210 CM":["PER METRE · 210 CM","بالمتر · 210 سم"],
+"−12 % dès un carton fermé de 3, 5 ou 10 toiles.":["−12% on any sealed carton of 3, 5 or 10 canvases.","‎−12٪ على كل كرتونة مغلقة من 3 أو 5 أو 10 لوحات."],
+"Jusqu'à 150 × 200 cm en stock, sur mesure sur devis.":["Up to 150 × 200 cm in stock, custom sizes on quote.","حتى 150 × 200 سم متوفرة، والمقاسات حسب الطلب بعرض سعر."],
+"Livré partout":["Delivered everywhere","توصيل لكل المدن"],
+"Casablanca 24–48 h, Maroc 2–4 jours. Offert dès 1 000 DH.":["Casablanca 24–48 h, rest of Morocco 2–4 days. Free from 1,000 DH.","الدار البيضاء 24–48 ساعة، باقي المغرب 2–4 أيام. مجاني ابتداءً من 1 000 درهم."],
+"Payé à la livraison":["Pay on delivery","الدفع عند الاستلام"],
+"Ou virement, carte bancaire, facture pro (ICE).":["Or bank transfer, card, business invoice (ICE).","أو تحويل بنكي، بطاقة بنكية، فاتورة مهنية (ICE)."],
+"Tout voir →":["See all →","عرض الكل ←"],
+"100 × 100 à 150 × 200 cm":["100 × 100 to 150 × 200 cm","من 100 × 100 إلى 150 × 200 سم"],
+"380 g, châssis 18 ou 38 mm":["380 g, 18 or 38 mm stretcher","380 غ، إطار 18 أو 38 مم"],
+"Grain fin, apprêt universel ou transparent":["Fine grain, universal or clear primer","حبيبات ناعمة، تحضير شامل أو شفاف"],
+"Le prix le plus bas par toile":["The lowest price per canvas","أقل سعر للوحة"],
+"Coton, lin, jute · 210 cm":["Cotton, linen, jute · 210 cm","قطن، كتان، جوت · 210 سم"],
+"À entoiler vous-même":["Stretch your own canvas","لتشدّ القماش بنفسك"],
+"Les plus commandés":["Best sellers","الأكثر طلباً"],
+"Unité ou carton ?":["Single or carton?","بالوحدة أم بالكرتونة؟"],
+"faites le calcul.":["do the maths.","احسبها بنفسك."],
+"Le même coton Atelier 380 g, au même endroit, au même moment. En carton fermé, chaque toile coûte 12 % de moins. Les cartons de 10 vont encore plus loin.":["The same Atelier 380 g cotton, same place, same time. In a sealed carton each canvas costs 12% less. Cartons of 10 go even further.","نفس قطن Atelier ‏380 غ، في نفس المكان ونفس الوقت. في كرتونة مغلقة تكلّف كل لوحة أقل بـ12٪. وكرتونات العشر لوحات توفّر أكثر."],
+"Tous les tarifs":["All prices","كل الأسعار"],
+"Format (cm)":["Size (cm)","المقاس (سم)"],
+"À l'unité":["Single","بالوحدة"],
+"En carton":["By the carton","بالكرتونة"],
+"Par carton":["Per carton","في الكرتونة"],
+"Prix TTC par toile, coton Atelier 380 g. Prix indicatifs.":["Prices incl. VAT per canvas, Atelier 380 g cotton. Indicative prices.","الأسعار شاملة الضريبة للوحة، قطن Atelier ‏380 غ. أسعار استرشادية."],
+// --- pros / devis
+"Artistes pros · Académies · Ateliers · Décorateurs":["Pro artists · Academies · Studios · Decorators","فنانون محترفون · أكاديميات · ورشات · مصممو ديكور"],
+"Grand volume ?":["Large volume?","كميات كبيرة؟"],
+"parlons-en.":["let's talk.","لنتحدث."],
+"Au-delà de 50 toiles, pour une rentrée scolaire, une exposition ou une production de décor, nous préparons un devis sous 24 h.":["Over 50 canvases, for a new school year, an exhibition or a set production, we prepare a quote within 24 h.","لأكثر من 50 لوحة، للدخول المدرسي أو لمعرض أو لإنتاج ديكور، نُعدّ لك عرض سعر خلال 24 ساعة."],
+"Tarif palette dès 50 toiles":["Pallet pricing from 50 canvases","سعر الباليت ابتداءً من 50 لوحة"],
+"Formats sur mesure jusqu'à 200 × 300 cm":["Custom sizes up to 200 × 300 cm","مقاسات حسب الطلب حتى 200 × 300 سم"],
+"Facture établissement (ICE), paiement par virement":["Institutional invoice (ICE), payment by bank transfer","فاتورة للمؤسسات (ICE)، الدفع بالتحويل البنكي"],
+"Livraison groupée ou enlèvement à l'entrepôt":["Grouped delivery or pick-up at the warehouse","توصيل مجمّع أو استلام من المخزن"],
+"Devis sur WhatsApp":["Quote on WhatsApp","عرض سعر عبر واتساب"],
+"Demande de devis":["Quote request","طلب عرض سعر"],
+"Nom *":["Name *","الاسم *"],
+"Téléphone *":["Phone *","الهاتف *"],
+"Établissement / atelier":["Institution / studio","المؤسسة / الورشة"],
+"Quantité estimée":["Estimated quantity","الكمية التقديرية"],
+"50 – 100 toiles":["50 – 100 canvases","50 – 100 لوحة"],
+"100 – 300 toiles":["100 – 300 canvases","100 – 300 لوحة"],
+"300 +":["300 +","+300"],
+"Ville":["City","المدينة"],
+"Formats et matière":["Sizes and material","المقاسات والخامة"],
+"Ex. 40 × 100x150 coton 380 g, 20 × 60x80 lin":["E.g. 40 × 100x150 cotton 380 g, 20 × 60x80 linen","مثال: 40 × 100x150 قطن 380 غ، 20 × 60x80 كتان"],
+"Envoyer la demande":["Send request","إرسال الطلب"],
+"Demande reçue. Réponse sous 24 h (démo).":["Request received. Reply within 24 h (demo).","تم استلام الطلب. الرد خلال 24 ساعة (تجريبي)."],
+"Bonjour Entrepôt des Arts, je souhaite un devis pour :":["Hello Entrepôt des Arts, I'd like a quote for:","مرحباً Entrepôt des Arts، أرغب في عرض سعر لـ:"],
+"Bonjour Entrepôt des Arts, je souhaite commander :":["Hello Entrepôt des Arts, I'd like to order:","مرحباً Entrepôt des Arts، أرغب في طلب:"],
+"Total estimé :":["Estimated total:","المجموع التقديري:"],
+// --- listing
+"Accueil":["Home","الرئيسية"],
+"De 100 × 100 à 150 × 200 cm, en stock à Casablanca. Châssis avec traverse, livrés emballés coin par coin. Plus grand ? Sur mesure, sur devis.":["From 100 × 100 to 150 × 200 cm, in stock in Casablanca. Braced stretchers, delivered with every corner protected. Bigger? Custom-made, on quote.","من 100 × 100 إلى 150 × 200 سم، متوفرة في الدار البيضاء. إطارات بعارضة تقوية، تُغلَّف زاوية بزاوية. أكبر؟ حسب الطلب بعرض سعر."],
+"Coton et lin sur châssis, cartons entoilés, toile au rouleau et châssis nus. Prix à l'unité et prix carton affichés côte à côte.":["Cotton and linen on stretchers, canvas panels, canvas on the roll and bare stretchers. Single and carton prices shown side by side.","قطن وكتان على إطارات، ألواح كرتون مكسوة، قماش باللفة وإطارات عارية. سعر الوحدة وسعر الكرتونة جنباً إلى جنب."],
+"Filtrer":["Filter","تصفية"],
+"Filtres":["Filters","التصفية"],
+"Matière":["Material","الخامة"],
+"Grammage":["Weight","الوزن"],
+"Épaisseur du châssis":["Stretcher depth","سُمك الإطار"],
+"Apprêt":["Primer","التحضير"],
+"Tous les formats":["All sizes","كل المقاسات"],
+"Moins":["Less","أقل"],
+"Les plus commandés ":["Best sellers","الأكثر طلباً"],
+"Prix croissant":["Price: low to high","السعر: من الأقل"],
+"Prix décroissant":["Price: high to low","السعر: من الأعلى"],
+"Aucun produit pour ces filtres.":["No products match these filters.","لا توجد منتجات بهذه المعايير."],
+"Effacer les filtres":["Clear filters","مسح التصفية"],
+"Coton":["Cotton","قطن"],
+"Lin":["Linen","كتان"],
+"Jute":["Jute","جوت"],
+"Universel":["Universal","شامل"],
+"Transparent":["Clear","شفاف"],
+"Brut":["Raw","خام"],
+"3 mm (panneau)":["3 mm (panel)","3 مم (لوح)"],
+"Choisir":["Choose","اختيار"],
+"À partir de":["From","ابتداءً من"],
+"Prix":["Price","السعر"],
+"Galerie":["Gallery","معارض"],
+"Nouveau":["New","جديد"],
+// --- fiche produit
+"Conditionnement":["Packaging","التعبئة"],
+"Palette":["Pallet","باليت"],
+"Dès 50 toiles · sur devis":["From 50 canvases · on quote","من 50 لوحة · بعرض سعر"],
+"Format":["Size","المقاس"],
+"Variante":["Option","الخيار"],
+"Bordure double = grand format, châssis avec traverse.":["Double border = large format, braced stretcher.","إطار مزدوج = مقاس كبير، إطار بعارضة تقوية."],
+"TTC la toile":["incl. VAT per canvas","شامل الضريبة للوحة"],
+"TTC le mètre":["incl. VAT per metre","شامل الضريبة للمتر"],
+"TTC le rouleau":["incl. VAT per roll","شامل الضريبة للفة"],
+"TTC le carton":["incl. VAT per carton","شامل الضريبة للكرتونة"],
+"soit":["i.e.","أي"],
+"par toile":["per canvas","للوحة"],
+"Quantité":["Quantity","الكمية"],
+"En stock · expédié sous 24 h":["In stock · ships within 24 h","متوفر · يُشحن خلال 24 ساعة"],
+"Sur commande · 7–10 jours":["On order · 7–10 days","حسب الطلب · 7–10 أيام"],
+"■ Casablanca 24–48 h · Maroc 2–4 jours · offert dès 1 000 DH":["■ Casablanca 24–48 h · Morocco 2–4 days · free from 1,000 DH","■ الدار البيضاء 24–48 ساعة · المغرب 2–4 أيام · مجاني ابتداءً من 1 000 درهم"],
+"■ Enlèvement gratuit à l'entrepôt, Casablanca":["■ Free pick-up at the warehouse, Casablanca","■ استلام مجاني من المخزن، الدار البيضاء"],
+"■ Paiement à la livraison, virement ou carte":["■ Cash on delivery, bank transfer or card","■ الدفع عند الاستلام أو بالتحويل أو بالبطاقة"],
+"Plus de 50 toiles ?":["More than 50 canvases?","أكثر من 50 لوحة؟"],
+"Tarif palette et formats sur mesure, devis sous 24 h.":["Pallet pricing and custom sizes, quote within 24 h.","سعر الباليت ومقاسات حسب الطلب، عرض سعر خلال 24 ساعة."],
+"Demander un devis":["Request a quote","اطلب عرض سعر"],
+"Description":["Description","الوصف"],
+"Caractéristiques":["Specifications","المواصفات"],
+"Livraison":["Delivery","التوصيل"],
+"Dans le même rayon":["In the same aisle","في نفس القسم"],
+"Référence":["Reference","المرجع"],
+"Casablanca : 24–48 h, 30 DH":["Casablanca: 24–48 h, 30 DH","الدار البيضاء: 24–48 ساعة، 30 درهم"],
+"Autres villes : 2–4 jours ouvrés, 50 DH":["Other cities: 2–4 working days, 50 DH","مدن أخرى: 2–4 أيام عمل، 50 درهم"],
+"Offert dès 1 000 DH":["Free from 1,000 DH","مجاني ابتداءً من 1 000 درهم"],
+"Grands formats : emballage coin par coin, livraison par transporteur":["Large formats: every corner protected, delivered by carrier","المقاسات الكبيرة: تغليف زاوية بزاوية، توصيل عبر شركة نقل"],
+"Enlèvement gratuit à l'entrepôt":["Free pick-up at the warehouse","استلام مجاني من المخزن"],
+"Retour sous 14 jours si la toile n'a pas été utilisée":["Returns within 14 days if the canvas is unused","الإرجاع خلال 14 يوماً إذا لم تُستعمل اللوحة"],
+"Paiement à la livraison, virement ou carte bancaire":["Cash on delivery, bank transfer or card","الدفع عند الاستلام أو بالتحويل البنكي أو بالبطاقة"],
+"Facture professionnelle avec ICE":["Business invoice with ICE","فاتورة مهنية مع ICE"],
+// specs
+"Composition":["Composition","التركيب"],
+"Châssis":["Stretcher","الإطار"],
+"Traverse":["Cross brace","عارضة التقوية"],
+"Fixation":["Fixing","التثبيت"],
+"Grain":["Grain","الحبيبات"],
+"Contenu":["Contents","المحتوى"],
+"Support":["Support","الحامل"],
+"Toile":["Canvas","القماش"],
+"Largeur":["Width","العرض"],
+"Longueur":["Length","الطول"],
+"Bois":["Wood","الخشب"],
+"Section":["Section","المقطع"],
+"Clés":["Keys","المفاتيح"],
+"100 % coton":["100% cotton","‏100٪ قطن"],
+"100 % lin":["100% linen","‏100٪ كتان"],
+"100 % coton 380 g/m²":["100% cotton 380 g/m²","‏100٪ قطن 380 غ/م²"],
+"Coton 380 g/m²":["Cotton 380 g/m²","قطن 380 غ/م²"],
+"Triple, universel, blanc":["Triple, universal, white","ثلاثي، شامل، أبيض"],
+"Pin séché, 18 mm":["Kiln-dried pine, 18 mm","صنوبر مجفف، 18 مم"],
+"Pin séché":["Kiln-dried pine","صنوبر مجفف"],
+"Pin, 38 mm":["Pine, 38 mm","صنوبر، 38 مم"],
+"Pin, 20 mm":["Pine, 20 mm","صنوبر، 20 مم"],
+"Dès 100 cm":["From 100 cm","ابتداءً من 100 سم"],
+"Dès 80 cm":["From 80 cm","ابتداءً من 80 سم"],
+"Agrafes au dos, clés incluses":["Staples on the back, keys included","تدبيس من الخلف، المفاتيح مرفقة"],
+"Fin":["Fine","ناعمة"],
+"Double, universel":["Double, universal","مزدوج، شامل"],
+"10 toiles identiques":["10 identical canvases","10 لوحات متطابقة"],
+"10 × 24x30, 10 × 30x40, 10 × 40x50":["10 × 24x30, 10 × 30x40, 10 × 40x50","10 × 24x30، 10 × 30x40، 10 × 40x50"],
+"Carton dur 3 mm":["3 mm hardboard","كرتون صلب 3 مم"],
+"Coton apprêté 280 g/m²":["Primed cotton 280 g/m²","قطن محضّر 280 غ/م²"],
+"Au mètre ou 10 m":["Per metre or 10 m","بالمتر أو 10 م"],
+"Aucun":["None","بدون"],
+"Incluses":["Included","مرفقة"],
+// produits
+"Toile coton Atelier 380 g":["Atelier cotton canvas 380 g","لوحة قطن Atelier ‏380 غ"],
+"Notre toile de travail. Coton 380 g/m², triple apprêt universel, châssis pin 18 mm. Pour l'huile et l'acrylique, de l'esquisse au grand format.":["Our workhorse canvas. 380 g/m² cotton, triple universal primer, 18 mm pine stretcher. For oil and acrylic, from sketch to large format.","لوحتنا للعمل اليومي. قطن 380 غ/م²، تحضير شامل ثلاثي، إطار صنوبر 18 مم. للزيت والأكريليك، من الاسكتش إلى المقاس الكبير."],
+"La toile que l'on rachète par carton. Un coton lourd et régulier, tendu à la machine sur un châssis en pin séché, agrafé au dos, coins pliés propres. Le triple apprêt accepte l'huile comme l'acrylique sans préparation.":["The canvas people re-order by the carton. A heavy, even cotton, machine-stretched on a kiln-dried pine stretcher, stapled on the back, with neat folded corners. The triple primer takes oil and acrylic with no preparation.","اللوحة التي يُعاد طلبها بالكرتونة. قطن ثقيل ومنتظم، مشدود آلياً على إطار من الصنوبر المجفف، مدبّس من الخلف بزوايا مطوية بإتقان. التحضير الثلاثي يقبل الزيت والأكريليك دون أي تجهيز."],
+"À partir de 100 cm, le châssis reçoit une traverse pour rester plan.":["From 100 cm the stretcher gets a cross brace to stay flat.","ابتداءً من 100 سم يُزوَّد الإطار بعارضة تقوية ليبقى مستوياً."],
+"Toile coton Profond 3D 38 mm":["Profond 3D cotton canvas 38 mm","لوحة قطن Profond 3D ‏38 مم"],
+"Châssis de 38 mm, bords peints, prête à exposer sans cadre. Le choix des artistes qui vendent en galerie.":["38 mm stretcher, paint the edges and hang it without a frame. The choice of artists who sell in galleries.","إطار 38 مم، أطراف قابلة للرسم، جاهزة للعرض دون برواز. اختيار الفنانين الذين يبيعون في المعارض."],
+"Un châssis profond qui donne de la présence au mur. Agrafes au dos : la peinture continue sur les bords.":["A deep stretcher with real presence on the wall. Staples on the back, so the painting can continue round the edges.","إطار عميق يمنح اللوحة حضوراً على الجدار. التدبيس من الخلف ليستمر الرسم على الأطراف."],
+"Toile lin Pro grain fin":["Pro linen canvas, fine grain","لوحة كتان Pro بحبيبات ناعمة"],
+"Lin belge 400 g/m², double apprêt. Le support des portraitistes et du travail en glacis.":["Belgian linen 400 g/m², double primed. The support for portrait painters and glazing work.","كتان بلجيكي 400 غ/م²، تحضير مزدوج. الحامل المفضل لرسامي البورتريه وتقنية الطبقات الشفافة."],
+"Plus stable et plus durable que le coton, le lin reste la référence pour l'huile. Grain fin et régulier.":["More stable and longer-lasting than cotton, linen is still the benchmark for oil. Fine, even grain.","أكثر ثباتاً ومتانة من القطن، يبقى الكتان المرجع للرسم الزيتي. حبيبات ناعمة ومنتظمة."],
+"Toile lin naturel apprêt transparent":["Natural linen canvas, clear primer","لوحة كتان طبيعي بتحضير شفاف"],
+"Lin écru visible sous un apprêt incolore. Pour garder la couleur du lin dans l'œuvre et les techniques mixtes.":["Raw linen visible under a colourless primer. Keeps the linen's colour in the work and in mixed media.","كتان خام يظهر تحت تحضير عديم اللون. للحفاظ على لون الكتان في العمل وفي التقنيات المختلطة."],
+"La teinte chaude du lin brut reste visible : fonds réservés, broderie, collage.":["The warm tone of raw linen stays visible: reserved grounds, embroidery, collage.","يبقى اللون الدافئ للكتان الخام ظاهراً: خلفيات محفوظة، تطريز، كولاج."],
+"Carton de 10 — coton Atelier":["Carton of 10 — Atelier cotton","كرتونة من 10 — قطن Atelier"],
+"Dix toiles identiques, coton 380 g, emballées pour l'atelier. Le prix le plus bas par toile.":["Ten identical canvases, 380 g cotton, packed for the studio. The lowest price per canvas.","عشر لوحات متطابقة، قطن 380 غ، مغلّفة للورشة. أقل سعر للوحة."],
+"Le même coton Atelier 380 g, en carton fermé de 10 : environ 18 % moins cher qu'à l'unité. Idéal pour les séries, les cours et les ateliers.":["The same Atelier 380 g cotton in a sealed carton of 10: about 18% cheaper than single. Ideal for series, classes and workshops.","نفس قطن Atelier ‏380 غ في كرتونة مغلقة من 10: أرخص بحوالي 18٪ من سعر الوحدة. مثالية للسلاسل والدروس والورشات."],
+"Carton école — 30 toiles mixtes":["School carton — 30 mixed canvases","كرتونة المدرسة — 30 لوحة متنوعة"],
+"10 × 24x30, 10 × 30x40, 10 × 40x50. Le carton des académies, écoles et ateliers d'initiation.":["10 × 24x30, 10 × 30x40, 10 × 40x50. The carton for academies, schools and beginners' workshops.","10 × 24x30، 10 × 30x40، 10 × 40x50. كرتونة الأكاديميات والمدارس وورشات المبتدئين."],
+"Un seul carton, trois formats pour toute une classe. Facture établissement disponible (ICE).":["One carton, three sizes for a whole class. Institutional invoice available (ICE).","كرتونة واحدة، ثلاثة مقاسات لقسم كامل. فاتورة للمؤسسات متاحة (ICE)."],
+"Carton entoilé coton 3 mm":["Cotton canvas panel 3 mm","لوح كرتون مكسو بالقطن 3 مم"],
+"Toile coton contrecollée sur carton dur. Études, plein air, cours : léger et économique.":["Cotton canvas mounted on hardboard. Studies, plein air, classes: light and economical.","قماش قطني ملصق على كرتون صلب. للدراسات والرسم في الهواء الطلق والدروس: خفيف واقتصادي."],
+"Rigide, plat, empilable. Vendu à l'unité ou par carton de 10.":["Rigid, flat, stackable. Sold single or by the carton of 10.","صلب، مستوٍ، قابل للتكديس. يُباع بالوحدة أو بكرتونة من 10."],
+"Toile coton en rouleau 210 cm":["Cotton canvas roll 210 cm","لفة قماش قطني 210 سم"],
+"Coton apprêté 380 g, largeur 210 cm. En rouleau de 10 m ou coupé au mètre, pour vos grands formats sur mesure.":["Primed cotton 380 g, 210 cm wide. In a 10 m roll or cut by the metre, for your custom large formats.","قطن محضّر 380 غ، بعرض 210 سم. في لفة من 10 م أو مقصوص بالمتر، لمقاساتك الكبيرة حسب الطلب."],
+"Pour tendre vous-même ou faire monter en atelier. Coupé net, livré roulé dans un tube.":["To stretch yourself or have mounted in a workshop. Cleanly cut, delivered rolled in a tube.","لتشدّه بنفسك أو لتركيبه في ورشة. قصّ نظيف، يُسلَّم ملفوفاً في أنبوب."],
+"Toile lin en rouleau 210 cm":["Linen canvas roll 210 cm","لفة قماش كتان 210 سم"],
+"Lin apprêté 400 g pour les grands formats à l'huile. Au mètre ou en rouleau de 10 m.":["Primed linen 400 g for large oil paintings. By the metre or in a 10 m roll.","كتان محضّر 400 غ للمقاسات الكبيرة بالزيت. بالمتر أو في لفة من 10 م."],
+"Un lin régulier et solide, apprêté universel.":["An even, strong linen with universal primer.","كتان منتظم ومتين بتحضير شامل."],
+"Toile de jute en rouleau 210 cm":["Jute canvas roll 210 cm","لفة قماش جوت 210 سم"],
+"Jute brut à gros grain, non apprêté. Texture, décor, techniques mixtes.":["Raw coarse-grain jute, unprimed. Texture, decor, mixed media.","جوت خام بحبيبات خشنة، غير محضّر. للملمس والديكور والتقنيات المختلطة."],
+"Une matière brute à préparer vous-même.":["A raw material to prepare yourself.","خامة خام تحضّرها بنفسك."],
+"Châssis nu à clés, pin 20 mm":["Bare keyed stretcher, pine 20 mm","إطار شدّ عارٍ بالمفاتيح، صنوبر 20 مم"],
+"Châssis assemblé à entoiler vous-même. Clés incluses, traverse dès 100 cm.":["Assembled stretcher to canvas yourself. Keys included, cross brace from 100 cm.","إطار مُجمّع لتكسوه بنفسك. المفاتيح مرفقة، وعارضة تقوية ابتداءً من 100 سم."],
+"Pour les artistes qui tendent leur propre toile. Assemblage à tenons, angles réglables par clés.":["For artists who stretch their own canvas. Mortise-and-tenon joints, corners adjustable with keys.","للفنانين الذين يشدّون قماشهم بأنفسهم. تجميع بالتعشيق، وزوايا قابلة للضبط بالمفاتيح."],
+// --- panier / commande
+"Votre commande est vide.":["Your order is empty.","طلبك فارغ."],
+"Retirer":["Remove","حذف"],
+"Livraison offerte":["Free delivery","توصيل مجاني"],
+"partout au Maroc.":["anywhere in Morocco.","إلى كل أنحاء المغرب."],
+"Encore":["Another","أضف"],
+"pour la livraison offerte.":["for free delivery.","لتحصل على توصيل مجاني."],
+"Économie carton":["Carton saving","توفير الكرتونة"],
+"Commander":["Order","اطلب الآن"],
+"Voir le détail":["See details","عرض التفاصيل"],
+"Commande":["Order","الطلب"],
+"Récapitulatif":["Summary","الملخص"],
+"Offerte":["Free","مجاني"],
+"Offert":["Free","مجاني"],
+"Total TTC":["Total incl. VAT","المجموع شامل الضريبة"],
+"Passer la commande":["Checkout","إتمام الطلب"],
+"Commander sur WhatsApp":["Order on WhatsApp","اطلب عبر واتساب"],
+"Paiement à la livraison, virement ou carte bancaire.":["Cash on delivery, bank transfer or card.","الدفع عند الاستلام أو بالتحويل البنكي أو بالبطاقة."],
+"Validation":["Checkout","تأكيد الطلب"],
+"1 · Coordonnées":["1 · Details","1 · بياناتك"],
+"2 · Livraison":["2 · Delivery","2 · التوصيل"],
+"3 · Paiement":["3 · Payment","3 · الدفع"],
+"Prénom *":["First name *","الاسم الشخصي *"],
+"E-mail":["E-mail","البريد الإلكتروني"],
+"Adresse *":["Address *","العنوان *"],
+"Ville *":["City *","المدينة *"],
+"ICE (facture pro)":["ICE (business invoice)","ICE (فاتورة مهنية)"],
+"Continuer":["Continue","متابعة"],
+"Retour":["Back","رجوع"],
+"Livraison Casablanca":["Delivery in Casablanca","التوصيل في الدار البيضاء"],
+"2–4 jours ouvrés":["2–4 working days","2–4 أيام عمل"],
+"Enlèvement à l'entrepôt":["Pick-up at the warehouse","الاستلام من المخزن"],
+"Casablanca · prêt sous 24 h":["Casablanca · ready within 24 h","الدار البيضاء · جاهز خلال 24 ساعة"],
+"Espèces ou carte à la réception":["Cash or card on receipt","نقداً أو بالبطاقة عند الاستلام"],
+"Virement bancaire":["Bank transfer","تحويل بنكي"],
+"RIB envoyé par WhatsApp, expédition à réception":["Bank details sent by WhatsApp, ships on receipt of payment","نرسل الرقم البنكي عبر واتساب، والشحن بعد التوصل بالمبلغ"],
+"Carte bancaire":["Card","بطاقة بنكية"],
+"Paiement sécurisé en ligne":["Secure online payment","دفع آمن عبر الإنترنت"],
+"J'accepte les conditions générales de vente":["I accept the terms and conditions of sale","أوافق على الشروط العامة للبيع"],
+"Merci d'accepter les conditions générales.":["Please accept the terms and conditions.","يرجى الموافقة على الشروط العامة."],
+"Commande reçue.":["Order received.","تم استلام الطلب."],
+". Nous vous appelons sous 24 h pour confirmer la livraison.":[". We'll call you within 24 h to confirm delivery.",". سنتصل بك خلال 24 ساعة لتأكيد التوصيل."],
+"Démo : aucune commande n'a été envoyée.":["Demo: no order was sent.","تجريبي: لم يُرسَل أي طلب."],
+"Retour à l'accueil":["Back to home","العودة إلى الرئيسية"],
+"Casablanca":["Casablanca","الدار البيضاء"],"Rabat":["Rabat","الرباط"],"Marrakech":["Marrakech","مراكش"],"Tanger":["Tangier","طنجة"],"Fès":["Fez","فاس"],"Agadir":["Agadir","أكادير"],"Mohammedia":["Mohammedia","المحمدية"],"Kénitra":["Kenitra","القنيطرة"],"Tétouan":["Tetouan","تطوان"],"Autre":["Other","أخرى"],
+// --- tarifs, divers
+"Tous nos prix sur une page, à l'unité et au carton fermé. Prix TTC par toile.":["All our prices on one page, single and per sealed carton. Prices incl. VAT per canvas.","كل أسعارنا في صفحة واحدة، بالوحدة وبالكرتونة المغلقة. الأسعار شاملة الضريبة للوحة."],
+"Coton Atelier 18 mm":["Atelier cotton 18 mm","قطن Atelier ‏18 مم"],
+"Coton Profond 38 mm":["Profond cotton 38 mm","قطن Profond ‏38 مم"],
+"Lin Pro":["Pro linen","كتان Pro"],
+"Toiles / carton":["Canvases / carton","لوحات / كرتونة"],
+"+ Carton coton":["+ Cotton carton","+ كرتونة قطن"],
+"Prix indicatifs pour la démo.":["Indicative prices for the demo.","أسعار استرشادية للعرض التجريبي."],
+"bientôt en stock.":["coming soon.","قريباً في المخزون."],
+"Caisses américaines et cadres aux formats de nos toiles arrivent à l'entrepôt. Laissez votre e-mail en bas de page pour être prévenu en premier.":["Floater frames and frames in our canvas sizes are on their way to the warehouse. Leave your e-mail at the bottom of the page to be told first.","إطارات عائمة وبراويز بمقاسات لوحاتنا في طريقها إلى المخزن. اترك بريدك أسفل الصفحة لتكون أول من يعلم."],
+"Voir les toiles":["See the canvases","تصفّح اللوحات"],
+"Introuvable":["Not found","غير موجود"],
+"Cette page n'existe pas.":["This page doesn't exist.","هذه الصفحة غير موجودة."],
+"Retour à l'accueil ":["Back to home","العودة إلى الرئيسية"],
+"/ toile":["/ canvas","/ للوحة"],
+"48 H":["48 H","48 ساعة"],
+"Aucun résultat":["No results","لا توجد نتائج"]
+};
+(function(){
+const arN=(n,one,two,few,many)=>{n=+n;return n===1?one:n===2?two:(n%100>=3&&n%100<=10)?`${n} ${few}`:`${n} ${many}`};
+const enC=n=>+n===1?'1 canvas':`${n} canvases`;
+const arC=n=>arN(n,'لوحة واحدة','لوحتان','لوحات','لوحة');
+const enP=n=>+n===1?'1 product':`${n} products`;
+const arP=n=>arN(n,'منتج واحد','منتجان','منتجات','منتجاً');
+const enK=n=>+n===1?'1 carton':`${n} cartons`;
+const arK=n=>arN(n,'كرتونة واحدة','كرتونتان','كرتونات','كرتونة');
+const t=s=>typeof tr==='function'?tr(s):s;
+window.I18N_RULES=[
+ [/^soit (.+ DH) \/ toile$/,'i.e. $1 / canvas','أي $1 / للوحة'],
+ [/^(.+ DH) \/ toile$/,'$1 / canvas','$1 / للوحة'],
+ [/^(.+ DH) \/ pièce en carton$/,'$1 / piece by the carton','$1 / للقطعة بالكرتونة'],
+ [/^(.+ DH) carton$/,'$1 by the carton','$1 بالكرتونة'],
+ [/^dès (.+ DH)$/,'from $1','ابتداءً من $1'],
+ [/^Ajouter · (.+)$/,'Add · $1','أضف · $1'],
+ [/^Valider · (.+)$/,'Confirm · $1','تأكيد · $1'],
+ [/^Carton de (\d+) : (.+ DH) · économie (.+ DH)$/,'Carton of $1: $2 · you save $3','كرتونة من $1: $2 · توفير $3'],
+ [/^Carton de (\d+)$/,'Carton of $1','كرتونة من $1'],
+ [/^En carton de (\d+) :$/,'In a carton of $1:','في كرتونة من $1:'],
+ [/^Plus que (\d+) en stock$/,'Only $1 left in stock','بقي $1 فقط في المخزون'],
+ [/^(\d+) produits?$/,n=>enP(n),n=>arP(n)],
+ [/^(\d+) produits? →$/,n=>enP(n)+' →',n=>arP(n)+' ←'],
+ [/^Voir (\d+) produits$/,n=>'Show '+enP(n),n=>'عرض '+arP(n)],
+ [/^Tout \((\d+)\)$/,'All ($1)','الكل ($1)'],
+ [/^(\d+) formats · (.+) → (.+)$/,(n,a,b)=>`${n} sizes · ${t(a)} → ${t(b)}`,(n,a,b)=>`${n} مقاسات · ${t(a)} ← ${t(b)}`],
+ [/^(\d+) cartons? = (\d+) toiles$/,(k,n)=>`${enK(k)} = ${enC(n)}`,(k,n)=>`${arK(k)} = ${arC(n)}`],
+ [/^RÉF\. (.+)$/,'REF. $1','المرجع $1'],
+ [/^Sous-total · (\d+) toiles?$/,n=>'Subtotal · '+enC(n),n=>'المجموع الفرعي · '+arC(n)],
+ [/^Livraison (.+)$/,c=>'Delivery to '+t(c),c=>'التوصيل إلى '+t(c)],
+ [/^(\d+) × (.+)$/,(n,x)=>`${n} × ${t(x)}`,(n,x)=>`${n} × ${t(x)}`],
+ [/^(.+) ×$/,x=>t(x)+' ×',x=>t(x)+' ×'],
+ [/^(.+?) · (EDA-\d+)$/,(x,r)=>`${t(x)} · ${r}`,(x,r)=>`${t(x)} · ${r}`],
+ [/^· (.+)$/,x=>'· '+t(x),x=>'· '+t(x)],
+];
+window.I18N_SUBS=[
+ [/Au mètre/g,'Per metre','بالمتر'],
+ [/Rouleau 10 m/g,'10 m roll','لفة 10 م'],
+ [/30 toiles mixtes/g,'30 mixed canvases','30 لوحة متنوعة'],
+ [/carton de (\d+)/g,'carton of $1','كرتونة من $1'],
+ [/à l'unité/g,'single','بالوحدة'],
+ [/\b(\d+) toiles?\b/g,(m,n)=>enC(n),(m,n)=>arC(n)],
+];
+})();
+
+/* ---------- Langues : FR (source), EN, AR ---------- */
+const LANGS=['fr','en','ar'];
+let LANG=(()=>{try{const u=new URLSearchParams(location.search).get('lang');if(LANGS.includes(u)){localStorage.setItem('edaLang',u);return u}const s=localStorage.getItem('edaLang');if(LANGS.includes(s))return s}catch(e){}
+  const n=(navigator.language||'fr').slice(0,2);return n==='ar'?'ar':n==='en'?'en':'fr'})();
+document.documentElement.lang=LANG;
+if(LANG==='ar'){const f=document.createElement('link');f.rel='stylesheet';f.href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;800&display=swap';document.head.appendChild(f)}document.documentElement.dir=LANG==='ar'?'rtl':'ltr';
+const L=i=>LANG==='fr'?null:i[LANG==='en'?0:1];
+const norm=s=>s.replace(/\s+/g,' ').trim();
+// exact text (French) -> [en, ar]
+const D=window.I18N_DICT||{};
+// patterns for dynamic text; replacement strings or functions, per language
+const R=window.I18N_RULES||[];
+const S=window.I18N_SUBS||[];
+function tr(s){
+  if(LANG==='fr'||s==null)return s;
+  const k=norm(String(s));if(!k)return s;
+  let out=lookup(k);
+  if(out==null)return s;
+  return out;
+}
+function lookup(k){
+  if(D[k])return L(D[k]);
+  for(const [re,en,ar] of R){const m=k.match(re);if(m){const r=LANG==='en'?en:ar;return typeof r==='function'?r(...m.slice(1)):k.replace(re,r)}}
+  if(/^✓ /.test(k)){const x=lookup(k.slice(2));if(x!=null)return'✓ '+x}
+  let o=k;for(const [re,en,ar] of S)o=o.replace(re,LANG==='en'?en:ar);
+  return o!==k?o:null;
+}
+function dh(s){if(LANG!=='ar')return s;
+  s=s.replace(/(\d)[  ](?=\d{3}(?!\d))/g,'$1 ');
+  return s.replace(/(?<![⁦\d −])([−]?\d[\d ]*)[  ]?(?:DH\b|درهم)(?!⁩)/g,'⁦$1 درهم⁩')}
+function trNode(n){
+  const v=n.nodeValue;if(!v||!/[A-Za-zÀ-ÿ]/.test(v))return;
+  const k=norm(v);const t=lookup(k);
+  let o=t==null?v:(v.match(/^\s*/)[0])+t+(v.match(/\s*$/)[0]);
+  o=dh(o);if(o!==v)n.nodeValue=o;
+}
+const ATTRS=['placeholder','aria-label','title'];
+function trTree(root){
+  if(LANG==='fr')return;
+  if(root.nodeType===3){trNode(root);return}
+  if(root.nodeType!==1)return;
+  if(root.closest&&root.closest('svg,script,style'))return;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement&&n.parentElement.closest('svg,script,style,[data-notr]')?2:1});
+  const list=[];while(w.nextNode())list.push(w.currentNode);list.forEach(trNode);
+  [root,...root.querySelectorAll('['+ATTRS.join('],[')+']')].forEach(el=>ATTRS.forEach(a=>{const v=el.getAttribute&&el.getAttribute(a);if(v){const t=tr(v);if(t!==v)el.setAttribute(a,dh(t))}}));
+}
+function setLang(l){try{localStorage.setItem('edaLang',l)}catch(e){};const u=new URL(location.href);u.searchParams.set('lang',l);location.replace(u.toString())}
+if(LANG!=='fr'){
+  trTree(document.body);if(D[norm(document.title)])document.title=L(D[norm(document.title)]);
+  new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')trNode(m.target);else m.addedNodes.forEach(trTree)}})
+   .observe(document.body,{childList:true,subtree:true,characterData:true});
+}
+
 const MARK=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104"><g transform="translate(2,2)"><g transform="translate(0,0) scale(1.0)">
 <path d="M6 42 L50 11 L94 42" fill="none" stroke="#C4502A" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
 <rect x="15" y="51" width="68" height="13" fill="#1D1B18"/>
@@ -491,7 +935,7 @@ const FACETS=[['matiere','Matière'],['grammage','Grammage'],['chassis','Épaiss
 
 /* ---------- Helpers ---------- */
 const $=s=>document.querySelector(s);
-const fmt=n=>Math.round(n).toLocaleString('fr-FR').replace(/ /g,' ')+' DH';
+const fmt=n=>Math.round(n).toLocaleString(LANG==='en'?'en-US':'fr-FR').replace(/ /g,' ')+' DH';
 const byId=id=>P.find(p=>p.id===id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function WH(s){const m=s.match(/(\d+)x(\d+)/);return m?[+m[1],+m[2]]:[3,4]}
@@ -540,7 +984,7 @@ function renderDrawer(){
   if(!cart.length){$('#dlist').innerHTML='<div class="empty" style="margin-top:20px">Votre commande est vide.</div>';$('#dfoot').innerHTML=`<a class="btn full" href="#toiles" onclick="closeAll()">Voir le stock</a>`;return}
   $('#dlist').innerHTML=cart.map(lineHTML).join('');
   const sv=savings();
-  $('#dfoot').innerHTML=shipBar()+(sv?`<div class="tot" style="color:var(--stock);font-weight:700"><span>Économie carton</span><span>−${fmt(sv)}</span></div>`:'')+`<div class="tot big"><span>Sous-total · ${pieces()} toiles</span><span>${fmt(subtotal())}</span></div>
+  $('#dfoot').innerHTML=shipBar()+(sv?`<div class="tot" style="color:var(--stock);font-weight:700"><span>Économie carton</span><span>−${fmt(sv)}</span></div>`:'')+`<div class="tot big"><span>Sous-total · ${pieces()} toile${pieces()>1?'s':''}</span><span>${fmt(subtotal())}</span></div>
   <a class="btn full" style="margin-top:14px" href="#commande" onclick="closeAll()">Commander</a><a class="btn ghost full" style="margin-top:8px" href="#panier" onclick="closeAll()">Voir le détail</a>`;
 }
 function openCart(){renderDrawer();$('#drawer').classList.add('open');$('#ov').style.display='block'}
@@ -559,7 +1003,9 @@ $('#navSlot').innerHTML=`<div class="navi"><a href="#toiles" data-k="toiles">Toi
   <div class="navi"><a href="#bientot" data-k="bientot">Cadres<span class="soon">BIENTÔT</span></a></div>`;
 $('#mnav').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div style="width:170px">${$('.logo').innerHTML}</div><button onclick="toggleMnav(false)" style="font-size:30px">×</button></div>
   <h4>Le stock</h4><a href="#toiles" onclick="toggleMnav(false)">Toutes les toiles</a><a href="#toiles-grands" onclick="toggleMnav(false)">Grands formats</a>${Object.entries(SUBS).map(([s,t])=>`<a href="#toiles-${s}" onclick="toggleMnav(false)">${t}</a>`).join('')}
-  <h4>Acheter malin</h4><a href="#formats" onclick="toggleMnav(false)">Tarifs par format</a><a href="#devis" onclick="toggleMnav(false)">Devis grand volume</a><a href="#livraison" onclick="toggleMnav(false)">Livraison & paiement</a>`;
+  <h4>Acheter malin</h4><a href="#formats" onclick="toggleMnav(false)">Tarifs par format</a><a href="#devis" onclick="toggleMnav(false)">Devis grand volume</a><a href="#livraison" onclick="toggleMnav(false)">Livraison & paiement</a>
+  <div class="mlang" data-notr><button onclick="setLang('fr')" data-l="fr">FR</button><button onclick="setLang('en')" data-l="en">EN</button><button onclick="setLang('ar')" data-l="ar">عربي</button></div>`;
+document.querySelectorAll('[data-l]').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG));
 function toggleMnav(o){$('#mnav').classList.toggle('open',o)}
 
 /* ---------- Cards ---------- */
@@ -615,7 +1061,7 @@ function calcBlock(){
 function proBlock(){return`<div class="pro" id="devisblock"><div><span class="m" style="color:var(--ocre-fonce)">Artistes pros · Académies · Ateliers · Décorateurs</span><h2 class="d" style="margin-top:10px">Grand volume ?<br><span class="s" style="font-size:40px">parlons-en.</span></h2>
   <p>Au-delà de 50 toiles, pour une rentrée scolaire, une exposition ou une production de décor, nous préparons un devis sous 24 h.</p>
   <ul><li>Tarif palette dès 50 toiles</li><li>Formats sur mesure jusqu'à 200 × 300 cm</li><li>Facture établissement (ICE), paiement par virement</li><li>Livraison groupée ou enlèvement à l'entrepôt</li></ul>
-  <a class="btn wa" href="https://wa.me/212633481636?text=${encodeURIComponent('Bonjour Entrepôt des Arts, je souhaite un devis pour :')}" target="_blank" rel="noopener">Devis sur WhatsApp</a></div>
+  <a class="btn wa" href="https://wa.me/212633481636?text=${encodeURIComponent(tr('Bonjour Entrepôt des Arts, je souhaite un devis pour :'))}" target="_blank" rel="noopener">Devis sur WhatsApp</a></div>
   <form class="panel form" onsubmit="event.preventDefault();toast('Demande reçue. Réponse sous 24 h (démo).');this.reset()">
     <div class="full"><h3 class="d" style="font-size:30px">Demande de devis</h3></div>
     <div><label>Nom *</label><input required></div><div><label>Téléphone *</label><input required type="tel"></div>
@@ -667,7 +1113,7 @@ function pdp(id){
   const unitLbl=p.kind==='roll'?(size.includes('mètre')?'le mètre':'le rouleau'):p.fixedPack?'le carton':'la toile';
   const related=P.filter(x=>x.id!==p.id&&(x.sub===p.sub||x.attrs.matiere===p.attrs.matiere)).slice(0,4);
   return`<div class="wrap"><div class="crumb"><a href="#accueil">Accueil</a><span>/</span><a href="#toiles">Toiles</a><span>/</span><a href="#toiles-${p.sub}">${SUBS[p.sub]}</a><span>/</span>${esc(p.name)}</div>
-  <div class="pdp"><div><div class="gallery" style="position:relative">${img(p,size)}<span class="dim">${esc(size.replace('x',' × '))}</span></div></div>
+  <div class="pdp"><div><div class="gallery" style="position:relative">${img(p,size)}<span class="dim">${esc(size.replace(/^(\d+)x(\d+)$/,'$1 × $2'))}</span></div></div>
   <div class="pinfo"><span class="ref">RÉF. ${p.ref}-${String(p.v.indexOf(v)+1).padStart(2,'0')}</span><h1 class="d">${esc(p.name)}</h1>
    <p class="lead">${esc(p.short)}</p>
    <div class="opt"><h4>${p.kind==='roll'||p.fixedPack?'Variante':'Format'} <span>· ${esc(size)}${/^\d+x\d+$/.test(size)?' cm':''}</span></h4>
@@ -710,13 +1156,13 @@ function summary(chk){
   const sv=savings();
   return`<div class="panel">${chk?`<h3 class="d" style="font-size:28px;margin-bottom:12px">Récapitulatif</h3>${cart.map(l=>{const p=byId(l.id);return`<div class="tot" style="font-size:13px"><span>${piecesOf(l)} × ${esc(p.name)} <span style="color:var(--beton)">${esc(l.size)}</span></span><span>${fmt(lineTotal(l))}</span></div>`}).join('')}<div style="height:10px"></div>`:''}
   ${shipBar()}
-  <div class="tot"><span>Sous-total · ${pieces()} toiles</span><span>${fmt(subtotal()+sv)}</span></div>
+  <div class="tot"><span>Sous-total · ${pieces()} toile${pieces()>1?'s':''}</span><span>${fmt(subtotal()+sv)}</span></div>
   ${sv?`<div class="tot" style="color:var(--stock);font-weight:700"><span>Économie carton</span><span>−${fmt(sv)}</span></div>`:''}
   <div class="tot"><span>Livraison</span><span>${chk?(shipCost()?fmt(shipCost()):'Offerte'):(subtotal()>=FREE?'Offerte':'dès 30 DH')}</span></div>
   <div class="tot big"><span>Total TTC</span><span>${fmt(subtotal()+(chk?shipCost():0))}</span></div>
   ${chk?'':`<a class="btn full" style="margin-top:16px" href="#commande">Passer la commande</a><a class="btn wa full" style="margin-top:8px" href="${waOrder()}" target="_blank" rel="noopener">Commander sur WhatsApp</a><p class="note">Paiement à la livraison, virement ou carte bancaire.</p>`}</div>`;
 }
-function waOrder(){return'https://wa.me/212633481636?text='+encodeURIComponent('Bonjour Entrepôt des Arts, je souhaite commander :\n'+cart.map(l=>`- ${piecesOf(l)} x ${byId(l.id).name} (${l.size}${packLabel(l)})`).join('\n')+`\nTotal estimé : ${fmt(subtotal())}`)}
+function waOrder(){return'https://wa.me/212633481636?text='+encodeURIComponent(tr('Bonjour Entrepôt des Arts, je souhaite commander :')+'\n'+cart.map(l=>`- ${piecesOf(l)} x ${tr(byId(l.id).name)} (${tr(l.size)}${packLabel(l)?' '+tr(packLabel(l)):''})`).join('\n')+`\n${tr('Total estimé :')} ${dh(fmt(subtotal()))}`)}
 function checkout(){
   if(co.step===4)return`<div class="wrap success"><div class="ok">${MARK}</div><h1 class="d" style="font-size:60px;margin-bottom:10px">Commande reçue.</h1><p>Commande <b>${co.no}</b>. Nous vous appelons sous 24 h pour confirmer la livraison.</p><p class="note">Démo : aucune commande n'a été envoyée.</p><a class="btn" style="margin-top:20px" href="#accueil" onclick="co={step:1,ship:'casa',pay:'cod',data:{}}">Retour à l'accueil</a></div>`;
   if(!cart.length)return cartPage();
@@ -777,7 +1223,7 @@ $('#q').addEventListener('input',e=>{
   const q=e.target.value.trim().toLowerCase(),box=$('#sres');
   if(q.length<2){box.style.display='none';return}
   const terms=q.replace(/\s*[×x]\s*/g,'x').split(/\s+/);
-  const res=P.filter(p=>{const hay=(p.name+' '+p.short+' '+Object.values(p.attrs).join(' ')+' '+p.v.map(v=>v.size).join(' ')+' '+SUBS[p.sub]).toLowerCase();return terms.every(t=>hay.includes(t))}).slice(0,8);
+  const res=P.filter(p=>{const parts=[p.name,p.short,...Object.values(p.attrs),SUBS[p.sub]],hay=(parts.join(' ')+' '+parts.map(x=>tr(x)).join(' ')+' '+p.v.map(v=>v.size).join(' ')).toLowerCase();return terms.every(t=>hay.includes(t))}).slice(0,8);
   const sz=(q.replace(/\s*[×x]\s*/g,'x').match(/\d+x\d+/)||[])[0];
   box.innerHTML=res.length?res.map(p=>`<a href="#produit-${p.id}" onclick="$('#sres').style.display='none';$('#q').value='';${sz?`presetSize='${sz}'`:''}"><div class="th">${img(p,sz&&p.v.some(v=>v.size===sz)?sz:null)}</div><div><b style="font-size:14px">${esc(p.name)}</b><div style="font-size:12px;color:var(--beton)">dès ${fmt(minPrice(p))}</div></div></a>`).join(''):'<div style="padding:16px;color:var(--beton)">Aucun résultat</div>';
   box.style.display='block';
